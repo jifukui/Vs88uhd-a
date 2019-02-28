@@ -135,7 +135,7 @@ var setComunicationEthTCPPort = function(value)
     else
     {
         netsetflag[3]=1;
-        netsetstr +="Invalid TCP Port";
+        netsetstr +="Invalid TCP Port ";
         return 1;
     }
 };
@@ -275,12 +275,14 @@ var netsetstr="";
 
 var SetNet=function() {
     netsetflag=[2,2,2,2,2];
+	var name=["IPaddress","Mask","Gateway","TCPPort","UDPPort"];
     jionin=[];
     netsetstr="";
     if ($("#actionId_setnet").hasClass("actionButton"))
     {
         for (var i = 0; i < ligObject.netsetflag.length; i++)
         {
+			inputField.INPUT_SET_ERROR(name[i],false);
             if (ligObject.netsetflag[i] == true)
             {
                 if (i == 0)

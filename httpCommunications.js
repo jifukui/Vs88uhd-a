@@ -40,7 +40,7 @@ var privilageflag=0;
 //event handlers
 var pNoResponseErrorHandler = null;
 var pHandShakeErrorHandler = null;
-var pHandShakeSuccessHandler = null;//这个标记不知道是做什么用的
+var pHandShakeSuccessHandler = null;//这个标记不知道是做什么用的
 var pAllOutputHandler = null;
 var pDeviceStateChangedHandler = null;
 
@@ -481,7 +481,6 @@ function updateMultiple(requestedUrl, userName, userPassword) {
 		context: document.body,
 		cache : false,
 		timeout:10000,
-		// contentType:"application/x-www-form-urlencoded;charset=gb2312",
 		data: {
 			username :  $(userName).val(),
 			password :  $(userPassword).val()
@@ -650,7 +649,7 @@ function RepliesQueue()
     if (this.Stack.length > 0)
     {
       var Result = this.Stack[0];
-      this.Stack = this.Stack.slice(1);//删除第一个数组元素
+      this.Stack = this.Stack.slice(1);//删除第一个数组元素
       return Result;
     }
     return null;
@@ -658,7 +657,7 @@ function RepliesQueue()
 }
 
 /*
-* 发送碎裂也是一个对象
+* 发送碎裂也是一个对象
 *
 * */
 function SendQueue()

@@ -63,7 +63,7 @@ var openEdidDiv = function(value){
     // Add Inputs
     $("#readFrom").append("<div style='margin: 0px 7px' >Inputs Capability</div>");
     // Add Color Space
-    $("#readFrom").append("<div><input id='cs_cap' style='width: 20px' type='checkbox' onclick='edid_cs_inputsOnSelection()'>RGB color space only</div>");
+    //$("#readFrom").append("<div><input id='cs_cap' style='width: 20px' type='checkbox' onclick='edid_cs_inputsOnSelection()'>RGB color space only</div>");
     // Add Deep corlor
     $("#readFrom").append("<div><input id='dc_cap' style='width: 20px' type='checkbox' onclick='edid_dc_inputsOnSelection()'>Deep color OFF</div>");
     //Add
@@ -358,7 +358,14 @@ var _edid_actualInput= 0;
 var edid_loadDefaultEdid = function(){
     edid_flag=1;
     $("#default").removeClass("setButtonDisable");
-    $("#browse").addClass("setButtonDisable");
+    if($("#browse").hasClass("setButtonDisable"))
+    {
+    }
+    else
+    {
+        $("#edidFileName").val("");
+        $("#browse").addClass("setButtonDisable")
+    }
 	edid_loaded_from_file = false;
 	_edid_actualSourceType = 2; //Default
     if(edidiframe.window.routeButton!=null)
@@ -389,6 +396,7 @@ var edid_inputsOnSelection=function(id){
     }
     else
     {
+        $("#edidFileName").val("");
         $("#browse").addClass("setButtonDisable")
     }
     edidiframe.window.routeButton.setSelected(id, true);
@@ -420,6 +428,7 @@ var edid_outputsOnSelection = function(id){
         }
         else
         {
+            $("#edidFileName").val("");
             $("#browse").addClass("setButtonDisable")
         }
         edidiframe.window.routeButton.setSelected(id, true);
@@ -436,7 +445,7 @@ var edid_outputsOnSelection = function(id){
         }
         else if(edid_flag==2)
         {
-            edid_loadEdidFromFile();
+            edid_loadEdidFromFile();//$("#edidFileName").change()
         }
         else if(parent.edid_flag==-1)
         {

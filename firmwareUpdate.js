@@ -1,12 +1,3 @@
-¡=·?A!CAEaGÅI°K¡M·OQ!SAUÒˇWÅY°[¡]·_a!cAeaerDeviceMessages()
-{
-
-	httpComm.addHandler("HTTP-UPLOAD \\d DONE", fileUploadSuccess);
-	httpComm.addHandler("RGB .*", fileUploadSuccess);
-	httpComm.addHandler("HTTP-UPLOAD \\d ERROR", fileUploadError);
-}
-
-
 function fileUploadSuccess(reply)
 {
 	if(lastUploadType == "fw")

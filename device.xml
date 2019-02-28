@@ -8,7 +8,7 @@
     <item name="Switching"		type="routing"		value="" />
     <item name="Device Settings"  type="properties" 	value="comm_settings.xml" />
     <!--<item name="Set and Recall"  type="setandrecall" 	value="" />-->
-    <item name="Password Settings"  type="password" 	value="" />
+    <item name="Authentication"  type="password" 	value="" />
     <item name="Timeout Settings"  type="timeout" 	value="" />
     <item name="Auto Switch Settings"  type="audioswitch" 	value="" />
     <item name="Step-in Settings"  type="stepin" 	value="" />

@@ -4,7 +4,7 @@ var connectflag=[1,1,1,1,1,1,1,1];//连接标志
 var inputselectedflag=[0,0,0,0,0,0,0,0];
 var stepINtype_module=[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]];//模式名对应的编号
 var stepINdevice_name=["","","","","","","",""];//级联设备的设备名数组
-var ActionInput=0;//当前选择的按钮
+var ActionInput=0;//当前选择的按钮
 var OutputValue=[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]];
 var stepIN=[0,0,0,0,0,0,0,0];
 var routingdevicebtnclicked=0;
@@ -265,7 +265,7 @@ var routingDeviceSwitchClicked = function(id, inputId,sw){
         sendAndWaitCommand("TUNNEL-CTRL 0,"+ output_id + ",\"VID "+id+">1\"");
     }
 };
-//输出口的状态
+//输出口的状态
 var routingDeviceDryContactClicked = function(index,id ,actionId)
 {
     var btn_name;

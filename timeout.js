@@ -1,5 +1,7 @@
 var currentkey=ligObject.OutputCounts+2;
 var input_flag=true;//true当前的设置为正确的参数
+
+
 var change_flag=true;//true表示没有输入
 var Timeoutonoffbuttonid=[0,1,2,3,4,5,6,7];
 var DefTimeOutValue=[900,900,900,900,900,900,900,900,900];
@@ -66,7 +68,7 @@ var TimeOut=function()
         str +="<td style='min-width: 200px;padding: 10px'></td>";
         str +="<td style='min-width: 30px;padding: 10px'><input type='checkbox' id='Timeoutcheckbox"+i+"' onclick='TimeoutCheckbox("+i+")'></td>";
         str +="<td style='min-width: 30px;padding: 10px'>"+data+"</td>";
-        str +="<td style='min-width: 30px;padding: 10px'><input type='number' min='1' max='999'  onkeydown='Timeout_keydown("+i+",event)' id='timeouttext_"+i+"' onkeyup='Timeout_keyup("+i+")' onchange='TimeOut_Setting("+ i +")' onfocus='TimeoutFocus("+i+")'  value=''></td>";
+        str +="<td style='min-width: 30px;padding: 10px'><input type='number' min='1' max='999'  onkeydown='return Timeout_keydown("+i+",event)' id='timeouttext_"+i+"' onkeyup='Timeout_keyup("+i+")' onchange='TimeOut_Setting("+ i +")' onfocus='TimeoutFocus("+i+")'  value=''></td>";
         str +="<td style='min-width: 20px;padding: 10px'>seconds</td>";
         str +="<td><div style='padding-left: 20px' id='timeputcheckbox_"+i+"'></div></td>";
         str +="</tr>";
@@ -76,7 +78,7 @@ var TimeOut=function()
     str +="<td style='min-width: 200px;padding: 10px'>Video signal lost timer</td>";
     str +="<td style='min-width: 30px;padding: 10px'></td>";
     str +="<td style='min-width: 30px;padding: 10px'></td>";
-    str +="<td style='min-width: 30px;padding: 10px'><input type='number' min='0' max='999' id='timeouttext_"+parseInt(ligObject.OutputCounts)+"'   onkeydown='Timeout_keydown("+parseInt(ligObject.OutputCounts)+",event)' onkeyup='Timeout_keyup("+i+")' onchange='TimeOut_Setting("+ parseInt(ligObject.OutputCounts) +")' onfocus='TimeoutFocus("+parseInt(ligObject.OutputCounts)+")' value=''></td>";
+    str +="<td style='min-width: 30px;padding: 10px'><input type='number' min='0' max='999' id='timeouttext_"+parseInt(ligObject.OutputCounts)+"'   onkeydown='return Timeout_keydown("+parseInt(ligObject.OutputCounts)+",event)' onkeyup='Timeout_keyup("+i+")' onchange='TimeOut_Setting("+ parseInt(ligObject.OutputCounts) +")' onfocus='TimeoutFocus("+parseInt(ligObject.OutputCounts)+")' value=''></td>";
     str +="<td style='min-width: 20px;padding: 10px'>seconds</td>";
     str +="<td style='min-width: 30px;padding: 10px'></td>";
     str +="</tr>";
@@ -116,14 +118,14 @@ var Timeout_keydown=function(i,e)
     console.log("val1:"+val);
     console.log("keyCode1:"+keyCode);
     //小键盘的数字                       退格         回车               大键盘数字键                   方向键                    插入键
+
+
     if((keyCode>=48&&keyCode<=57)||keyCode==8||keyCode==13||(keyCode>=96&&keyCode<=105)||(keyCode>=37&&keyCode<=40)||(keyCode==46)||(keyCode==9))
     {
-        console.log("good");
         return true;
     }
     else
     {
-        console.log("error");
         return false;
     }
 };
@@ -167,7 +169,7 @@ var timeout_init_sync_queries=function()
 {
     var i;
     httpComm.setCommunicationEnabled(false);
-    httpComm.Settings.NumberOfCommandsSendInGroup =2*ligObject.OutputCounts+2;//<24
+    httpComm.Settings.NumberOfCommandsSendInGroup =ligObject.OutputCounts+3;//<24
     httpComm.addHandler("EXT-AV-SW-TIMEOUT", timeoutsettimeHandler);
     httpComm.addHandler("EXT-OUT-A-EN", timeoutsetaudioHandler);
     httpComm.addHandler("LOCK-FP",AllLockModeHander);
@@ -175,8 +177,8 @@ var timeout_init_sync_queries=function()
     for(i=0;i<ligObject.OutputCounts;i++)
     {
         httpComm.SyncQueriesList.Add("EXT-AV-SW-TIMEOUT? 1,"+parseInt(i+1)+",4");
-        httpComm.SyncQueriesList.Add("EXT-OUT-A-EN? "+parseInt(i+1)+"");
     }
+    httpComm.SyncQueriesList.Add("EXT-OUT-A-EN? *");
     httpComm.SyncQueriesList.Add("EXT-AV-SW-TIMEOUT? 0,"+parseInt(ligObject.OutputCounts+1)+",0");
     httpComm.SyncQueriesList.Add("LOCK-FP?");//AFV模式
     httpComm.setCommunicationEnabled(true);
@@ -292,19 +294,24 @@ var timeoutsettimeHandler=function(reply)
 
 var timeoutsetaudioHandler=function(reply)
 {
-    var outputid = $.trim(reply.parameters.split(',')[0]);
-    var audiomode = $.trim(reply.parameters.split(',')[1]);
-    onoffstatus[parseInt(outputid)-1]=parseInt(audiomode);
-    if(audiomode==0)
+    var rep = reply.parameters.split(',');
+    if (rep.length == ligObject.OutputCounts)
     {
-        Timeoutonoffbuttonid[parseInt(outputid)-1].isOn=false;
-        Timeoutonoffbuttonid[parseInt(outputid)-1].refresh();
-    }
-    else
-    {
-        Timeoutonoffbuttonid[parseInt(outputid)-1].isOn=true;
-        Timeoutonoffbuttonid[parseInt(outputid)-1].refresh();
-    }
+        for (var i = 0; i < rep.length; i++)
+        {
+            onoffstatus[parseInt(i)]=parseInt(rep[i]);
+            if(rep[i]==0)
+            {
+                Timeoutonoffbuttonid[parseInt(i)].isOn=false;
+                Timeoutonoffbuttonid[parseInt(i)].refresh();
+            }
+            else
+            {
+                Timeoutonoffbuttonid[parseInt(i)].isOn=true;
+                Timeoutonoffbuttonid[parseInt(i)].refresh();
+            }
+        }
+    } 
 };
 
 var TimeoutCheckbox=function (value)
