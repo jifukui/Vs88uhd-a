@@ -16,7 +16,6 @@ body {
 div.tooltip:hover {
     position: relative;
 }
-
 div.tooltip[data-title]:hover:after {
     content: attr(data-title);
     padding: 4px 8px;

@@ -21,7 +21,7 @@ var scriptToLoad = [
     'password.js',
     'timeout.js',
     'audioswitch.js',
-    'stepin.js'
+	'stepin.js'
 ];
 
 

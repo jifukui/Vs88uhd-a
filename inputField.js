@@ -33,11 +33,27 @@ function inputField(a,b)
     {
         var a,d="",e="onclick='inputField.INPUT_SET_FUNC(\""+this.id+'", "'+b+"\");'";
         this.enabled||(d="disabled",e="");
-        var h=this.rightAlign?"alignToRigth":"";a=""+("<div class='divInputField' id='"+this.id+"'>");
-        a=a+"<table><tr>"+("<td ><input "+d+" class='"+h+"' type='"+this.InputType+"' id='input_value_"+this.id+"' value='"+this.value+"' oninput='inputField.INPUT_LOSEFOCUS(\""+this.id+"\");'/></td>");
+        var h=this.rightAlign?"alignToRigth":"";
+        a=""+("<div class='divInputField' id='"+this.id+"'>");
+        console.log("the id is "+this.id);
+        if(this.id=="TCPPort")
+        {
+            console.log("input_value_TCPPort");
+            a=a+"<table><tr>"+("<td ><input "+d+" class='"+h+"' type='"+this.InputType+"' id='input_value_"+this.id+"' value='"+this.value+"' oninput='inputField.INPUT_LOSEFOCUS(\""+this.id+"\") ' title='2000--65535';/></td>");
+        }
+        else if(this.id=="UDPPort")
+        {
+            console.log("input_value_UDPPort");
+            a=a+"<table><tr>"+("<td ><input "+d+" class='"+h+"' type='"+this.InputType+"' id='input_value_"+this.id+"' value='"+this.value+"' oninput='inputField.INPUT_LOSEFOCUS(\""+this.id+"\")' title='2000--65535';/></td>");
+        }
+        else
+        {
+            a=a+"<table><tr>"+("<td ><input "+d+" class='"+h+"' type='"+this.InputType+"' id='input_value_"+this.id+"' value='"+this.value+"' oninput='inputField.INPUT_LOSEFOCUS(\""+this.id+"\");'/></td>");
+        }
+        //a=a+"<table><tr>"+("<td ><input "+d+" class='"+h+"' type='"+this.InputType+"' id='input_value_"+this.id+"' value='"+this.value+"' oninput='inputField.INPUT_LOSEFOCUS(\""+this.id+"\");'/></td>");
         a+="<td style='display: none'><div id='input_setbtn_"+this.id+"' class='setButton setButtonDisable' "+e+">SET<div></td>";a+="</tr></table>";
         a+="</div>";
-        $("#"+this.putOnDiv).html(a)
+        $("#"+this.putOnDiv).html(a);
     }
 }
 inputField.INPUT_COUNT=0;
