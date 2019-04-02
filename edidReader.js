@@ -103,7 +103,8 @@ function EdidReader(fileName)
         }
         return valid;
     };
-//这里获得是的设备的名称
+//这里获得是的设备的名称
+
     this.getName = function ()
     {
         // Search for the name
@@ -126,7 +127,8 @@ function EdidReader(fileName)
                 break;
             }
         }
-        //如果没有找到设备的名称则将会使用设备厂商名
+        //如果没有找到设备的名称则将会使用设备厂商名
+
         if (found == false)
         {
             name = String.fromCharCode(this.edid[8]);
@@ -331,8 +333,10 @@ EdidReader.GetCheck=function (dataArray) {
             sum+=parseInt(dataArray[128*i+n],16);
         }
         sum%=256;
-        sum=0x100-sum;
-        CheckNum[i]=sum;
+        
+            sum=0x100-sum;
+        
+        CheckNum[i]=sum%256;
     }
     return CheckNum;
 };
