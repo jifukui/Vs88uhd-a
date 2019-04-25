@@ -199,6 +199,7 @@ routeButton.setSelectedAllGroup = function(groupId, selected){
 	 }
 };
 
+
 routeButton.getAllGroup = function(groupId){
 	var arr = new Array();
 	for(var i=0;i<routeButton.ROUTE_BUTTON_COUNT;i++)

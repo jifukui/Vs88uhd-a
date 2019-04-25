@@ -18,6 +18,7 @@ function EdidReader(fileName)
     this.dataBlocks;
     this.Check=new Array();
     this.edidTable = "";
+    this.count=0;
     ligObject.DVIEdid=true;
     this.load = function ()
     {
@@ -29,6 +30,7 @@ function EdidReader(fileName)
             success: function (data)
             {
                 EdidReader.instance.setEdidData(data);
+                
             }
         });
     };
@@ -50,8 +52,10 @@ function EdidReader(fileName)
         }
         else
         {
+            
             if (EdidReader.instance.onEdidError != null)
-                EdidReader.instance.onEdidError();
+                EdidReader.instance.onEdidError(EdidReader.instance);
+            
         }
     };
     this.isValidEdid = function ()

@@ -307,7 +307,6 @@ var Output_Volume_Range = function (id) {
     sendAndWaitCommand(str);
     console.log("suceess1")
 };
-/********************************************************修改ztc 2017/9/7***************************************************************************/
 var vHoldBack = function (id, event) {
     var key = event.keyCode;
     if (key == 13 || key == 108) {
@@ -352,7 +351,7 @@ var bHoldBack = function (id, event) {
         BalanceForbinCurrent = null;
     }
 }
-/********************************************************修改ztc 2017/9/7***************************************************************************/
+
 var volumeText = function (id) {
     id = parseInt(id);
     var testVal = document.getElementById("OutputVolumeValue" + id).value;
@@ -429,7 +428,7 @@ var sendBlanceData = function (id) {
     }
     BalanceForbinCurrent = null;
 }
-/********************************************************修改ztc 2017/9/7***************************************************************************/
+
 var Output_Mute = function (id) {
     var name = "#Output_Mute" + id;
     var volstr = "Output_Volume" + id;
@@ -504,9 +503,6 @@ var Input_Digital_Button = function (id) {
     }
 };
 //输入口模拟
-
-
-
 var Input_Analog_Button = function (id) {
     if (AbaOutSelect == null) {
         $('#kDialogBtnCancel').hide();
@@ -597,9 +593,6 @@ var Input_ARC_Button = function (id) {
 };
 
 //Audio Break Away模式的内容文件
-
-
-
 var Aba_text_html = function () {
     var str = "", i = 0, data = "", num = "";
     for (i; i < ligObject.OutputCounts; i++) {
@@ -761,7 +754,7 @@ var openRoutingDiv = function (value) {
     $("#patterns").hide();
 
     drawflag();
-    outputsOnSelection("rb_outputs0");
+    //outputsOnSelection("rb_outputs0");
     inputsSelection(0);
     routing_init_sync_queries();
     setTimeout("showLoading(false);", 1500);
@@ -830,6 +823,8 @@ var pattensOnSelection = function (id) {
         }
 
     }
+    $("#Switch_checkbox").attr("checked", false);
+    routeButton.setSelectedAllGroup("outputs", false);
     jifukui_inputselect = 0;
 };
 
@@ -928,9 +923,6 @@ var outputActionClick = function (action, index) {
         btn.indexActionButtonList[0] = act;
     }
     else if (action == 1) // 设置标题名或者切换模式
-
-
-
     {
         var num = index;
         var content = "";
@@ -1005,8 +997,6 @@ var outputActionClick = function (action, index) {
 var SetSwitchMode = function (index, value) {
     var smode = "";
     var str = "EXT-AV-SW-SPEED " + (parseInt(index) + 1) + "," + value;
-
-
     sendAndWaitCommand(str);
 };
 
@@ -1014,9 +1004,6 @@ var inputActionClick = function (action, index) {
     onoffButton.ONOFF_CLEAR();
     jifukui_hdcp_select = parseInt(index + 1);
     if (action == 0) // 设置标题名或者切换模式
-
-
-
     {
         var content = "";
         content += "<div class='txtProperty'></div>";
@@ -1217,6 +1204,8 @@ var inputsOnSelection = function (id) {
                 }
             }
         }
+        $("#Switch_checkbox").attr("checked", false);
+        routeButton.setSelectedAllGroup("outputs", false);
     }
     jifukui_inputselect = 0;
 };
@@ -1226,6 +1215,8 @@ var outputsOnSelection = function (id) {
         routeButton.togleSelected(id);
         $("#Switch_checkbox").attr("checked", false);
     }
+    routeButton.setSelectedAllGroup("inputs", false);
+    routeButton.setSelectedAllGroup("pattens", false);
     jifukui_outputselect = 0;
 };
 
@@ -1271,8 +1262,6 @@ var GetroutingLabel=function()
     console.log(label);
     switchLabelHandler(label);
 }
-
-
 var switch_aba_sync_queries = function () {
     httpComm.setCommunicationEnabled(false);
     if(ligObject.Haveaudio)
@@ -1947,7 +1936,7 @@ var switchAUDHandler = function (reply) {
                     str = "Output_Digital" + i;
                 }
                 else if(i >=2* ligObject.OutputCounts){
-                    InputARCSwitchStatus(i - ligObject.OutputCounts, rep[i]);
+                    InputARCSwitchStatus(i - 2*ligObject.OutputCounts, rep[i]);
                 }
                 if (i < ligObject.OutputCounts) {
                     str = document.getElementById(str);

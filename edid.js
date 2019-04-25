@@ -12,6 +12,7 @@ var edidscriptload=["init.js","routeButton.js","mobile_touch.js"];
 var edidscriptToLoadIndex = 0;
 var edidscriptToLoadReties = 3;
 var filehaveloadedid=false;
+var SelectedOutputEDIDChange=false;
 ligObject.errorEdid=false;
 var openEdidDiv = function(value){
     firstflag=true;
@@ -141,7 +142,6 @@ var edid_init_sync_queries = function()
 var edidDisplayHandler = function(reply){
 	var rep = reply.parameters.split(',');
     var btn;
-    var str;
     jifukui_edid_state=rep;
     if(rep.length==ligObject.OutputCounts)
     {
@@ -153,10 +153,25 @@ var edidDisplayHandler = function(reply){
                 if (rep[i]==0)
                 {
                     btn.actionButtonList[0] =btn.actionButtonList[0].replace("routeControlTextLabel1","routeControlTextLabel3");
+                    if(_edid_actualSourceType==1&&_edid_actualOutput==(i+1))
+                    {
+                        SelectedOutputEDIDChange=true;
+                        $("#edidSumaryData").html("No Load");
+                        //$("#edidSumaryButton").hide();
+                        routeButton.setSelectedAllGroup("cp_inputs", false);
+                        edid_getEdidTo();
+                    }
 
                 }else
                 {
                     btn.actionButtonList[0] =btn.actionButtonList[0].replace("routeControlTextLabel3","routeControlTextLabel1");
+                    if(SelectedOutputEDIDChange&&_edid_actualSourceType==1&&_edid_actualOutput==(i+1))
+                    {
+                        SelectedOutputEDIDChange=false;
+                        edid_getEdidFrom(1,_edid_actualOutput,true);
+                        //$("#edidSumaryButton").show();
+                        edid_getEdidTo();
+                    }
                 }
                 btn.refresh();
             }
@@ -367,7 +382,7 @@ var edid_loadDefaultEdid = function(){
         $("#browse").addClass("setButtonDisable")
     }
 	edid_loaded_from_file = false;
-	_edid_actualSourceType = 2; //Default
+    _edid_actualSourceType = 2; //Default
     if(edidiframe.window.routeButton!=null)
     {
         edidiframe.window.routeButton.setSelectedAllGroup ("outputs",false);
@@ -514,7 +529,7 @@ var edid_pcm_inputsOnSelection=function(){
     edid_debug_query_count=0;
     httpComm.setCommunicationEnabled(true);
 };
-
+var edidretry=0;
 var edid_getEdidFrom = function(source, id,isSend){
     if (isSend)
     {
@@ -530,6 +545,7 @@ var edid_getEdidFrom = function(source, id,isSend){
             ligObject.errorEdid=false;
             edid.onEdidLoaded = edidEdidLoaded;
             edid.onEdidError = edidEdidError;
+            edidretry=2;
             edid.load();
         }
     }
@@ -537,7 +553,14 @@ var edid_getEdidFrom = function(source, id,isSend){
 	var eFrom = "FROM<BR/> " + src;
 	$("#edidSumaryFrom").html(eFrom);
 };
-
+var EDIDReload=function()
+{
+    var edid = new EdidReader("file_response.dat");
+    ligObject.errorEdid=false;
+    edid.onEdidLoaded = edidEdidLoaded;
+    edid.onEdidError = edidEdidError;
+    edid.load();
+}
 var edid_getEdidTo = function(id){
 	var dest= edid_getSelectedDestinations();
 	var eTo = "Select a destination";
@@ -550,7 +573,7 @@ var edid_getEdidTo = function(id){
     {
         $("#edidSumaryButton").html("COPY");
     }
-    if(!ligObject.errorEdid)
+    if(!ligObject.errorEdid&&(!SelectedOutputEDIDChange))
     {
         if(dest == ""){
             $("#edidSumaryButton").hide();
@@ -568,6 +591,8 @@ var edid_getEdidTo = function(id){
 };
 
 var edidEdidLoaded = function(edidObj){
+    SelectedOutputEDIDChange=false;
+    edidretry=0;
 	var info = "<table width='100%'>";
 	info+= "<tr><td class='edidSumaryDataTitle'>" + edidObj.getName()+"</td></tr>";
 	var res = edidObj.getNativeResolution();
@@ -583,12 +608,22 @@ var edidEdidLoaded = function(edidObj){
 	}
 	info+= "<tr><td class='edidSumaryDataLen'>" + edidObj.getLength()+"</td></tr>";
 	info+= "</table>";
-	$("#edidSumaryData").html(info);
+    $("#edidSumaryData").html(info);
 };
 
-var edidEdidError = function(){
+var edidEdidError = function(edidObj){
+    if(edidretry==0)
+    {
+        ligObject.errorEdid=true;
+        $("#edidSumaryData").html("Error Loading EDID");
+    }
+    else
+    {
+        edidretry--;
+        setTimeout("EDIDReload()",1000);
+    }
     ligObject.errorEdid=true;
-	$("#edidSumaryData").html("Error Loading EDID");
+    $("#edidSumaryData").html("Error Loading EDID");
 };
 
 var edid_getSelectedDestinations = function(){
@@ -801,10 +836,13 @@ var CopyEdidCommand=function(reply)
         flag_sendedidcommand=31;
         if(reply=="OK")
         {
+            $('#kDialogBtnCancel').hide();
+            $('#kDialogBtnOk').hide();
+            showDialogBox(true,true,"Message","EDID is copying ... ... ... ...","hideDialogBox");
             var resp = sendAndWaitCommand("CPEDID "+_edid_actualSourceType+","+edid_index_scrous+","+"0"+"," +edid_input_mask+","+edid_safe_mode);
             if(resp.indexOf("ERR") > -1)
             {
-                $('#kDialogBtnCancel').hide();
+                //$('#kDialogBtnCancel').hide();
                 $('#kDialogBtnOk').show();
                 showDialogBox(true,true,"Warning","EDID is invalid or not supported.","hideDialogBox");
             }
@@ -823,7 +861,7 @@ var CopyEdidCommand=function(reply)
 
                 TitleStr +="</tr></table>";
 
-                $('#kDialogBtnCancel').hide();
+                //$('#kDialogBtnCancel').hide();
                 $('#kDialogBtnOk').show();
                 showDialogBox(true,true,"Message",TitleStr,"EDIDCopyhideDialogBox");
             }
