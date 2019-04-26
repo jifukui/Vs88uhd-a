@@ -18,7 +18,7 @@ function EdidReader(fileName)
     this.dataBlocks;
     this.Check=new Array();
     this.edidTable = "";
-    this.count=0;
+    this.count=2;
     ligObject.DVIEdid=true;
     this.load = function ()
     {
@@ -31,7 +31,14 @@ function EdidReader(fileName)
             {
                 EdidReader.instance.setEdidData(data);
                 
+            },
+            error: function () {
+                if (EdidReader.instance.onEdidError != null)
+                    EdidReader.instance.onEdidError(EdidReader.instance);
             }
+            
+            
+            
         });
     };
     this.setEdidData = function (data)
@@ -338,7 +345,7 @@ EdidReader.GetCheck=function (dataArray) {
         }
         sum%=256;
         
-            sum=0x100-sum;
+        sum=0x100-sum;
         
         CheckNum[i]=sum%256;
     }

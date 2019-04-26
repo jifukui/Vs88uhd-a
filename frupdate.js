@@ -318,7 +318,7 @@ var jifukui_updatefile = function () {
                         return false;
                     }
                     var filetype = a.substr(a.lastIndexOf(".")).toLowerCase();
-                    var filename = a.search(/^UPLOAD_KMR/i);
+                    var filename = a.search(/^UPLOAD_KMR_88H2/i);
                     // if((filetype==".lba"||filetype==".lb1"||filetype==".lb2")&&filename==0)
                     // {
                     //     document.getElementById("kDialogBtnCancel").innerHTML="CLOSE";
