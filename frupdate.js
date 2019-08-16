@@ -294,11 +294,14 @@ var closeUploadDialog = function () {
 };
 var jifukui_updatefile = function () {
     sendfile = 0;
-    if (ligObject.updatafile != "") {
+    console.log("The ligObject.updatafile is "+ligObject.updatafile);
+    if (ligObject.updatafile != "") 
+    {
         sendfile = 1;
-        $("#HttpCommUploadIFrame").on("submit", function () {
-                var a = ligObject.updatafile;
-                if (sendfile == 1) {
+        $("#HttpCommUploadIFrame").on("submit", function () 
+        {
+                if (sendfile == 1) 
+                {
                     sendfile = 2;
                     /*
                     a = a.replace(/^.*[\\\/]/, "");
@@ -314,6 +317,7 @@ var jifukui_updatefile = function () {
                     var filetype = a.substr(a.lastIndexOf(".")).toLowerCase();
                     var filename = a.search(/^UPLOAD_KMR_88H2/i);*/
                     //if (filetype == ".img") {
+
                     document.getElementById("kDialogBtnCancel").innerHTML = "CLOSE";
                     $('#kDialogBtnCancel').show();
                     $('#kDialogBtnOk').show();
@@ -330,21 +334,24 @@ var jifukui_updatefile = function () {
                         showDialogBox(true, true, "Error:", "Invalid file", "hideDialogBox");
                     }
                     return false;*/
+                    return false;
                 }
             }
         )
     }
     else 
     {
+        
         if (sendfile == 0) 
         {
             sendfile = 101;
-            $("#HttpCommUploadIFrame").on("submit", function (a) {
-                    if (sendfile == 101) {
+            $("#HttpCommUploadIFrame").on("submit", function (a) 
+            {
+                    /*if (sendfile == 101) {
                         $('#kDialogBtnCancel').hide();
                         $('#kDialogBtnOk').show();
                         showDialogBox(true, true, "Error", "You must choose a file", "hideDialogBox");
-                    }
+                    }*/
                     return false;
                 }
             )
@@ -400,7 +407,8 @@ var fr_openUploadStatusDialog = function () {
 };
 
 var jifukui_dialog = function (event) {
-    if (sendfile != 2) {
+    if (sendfile != 2) 
+    {
         return false;
     }
     console.log("3");
@@ -408,7 +416,8 @@ var jifukui_dialog = function (event) {
     if ("CANCEL" == event) {
         showDialogBox(false, true);
     }
-    else {
+    else 
+    {
         fr_update_submit_dialog_response("OK");
     }
 

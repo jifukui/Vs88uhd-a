@@ -997,9 +997,14 @@ var fr_update_choosedFile=function()
 {
     var a=$("#HttpCommUploadIFrame #HttpCommUploadFile").val();
     var b = a.replace(/^.*[\\\/]/, "");
-    var file = document.getElementById("HttpCommUploadFile").files;
+	var file = document.getElementById("HttpCommUploadFile").files;
+	ligObject.updatafile="";
 	if (file[0].size > 2097152) 
 	{
+		
+		$("#HttpCommBtnUpload").addClass("DisSetButton");
+		$("#HttpCommBtnUpload").removeClass("SetButton");
+		$("#fr_file_selected").html("Choose a file");
         $('#kDialogBtnCancel').hide();
         $('#kDialogBtnOk').show();
         showDialogBox(true, true, "Warning", "The maximum file size is 2MB.", "hideDialogBox");
@@ -1007,6 +1012,7 @@ var fr_update_choosedFile=function()
     }
     var filetype = b.substr(b.lastIndexOf(".")).toLowerCase();
 	var filename = b.search(/^UPLOAD_KMR_88H2/i);
+	console.log("filetype "+filetype+" filename "+filename);
 	if(filetype==".img"&&filename==0)
 	{
 		$("#HttpCommBtnUpload").removeClass("DisSetButton");
@@ -1017,10 +1023,14 @@ var fr_update_choosedFile=function()
 	}
 	else
 	{
+		
+		$("#HttpCommBtnUpload").addClass("DisSetButton");
+		$("#HttpCommBtnUpload").removeClass("SetButton");
+		$("#fr_file_selected").html("Choose a file");
 		$('#kDialogBtnCancel').hide();
         $('#kDialogBtnOk').show();
-        showDialogBox(true, true, "Error:", "Invalid file.", "hideDialogBox");
-		$("#fr_file_selected").html("Choose a file");
+		showDialogBox(true, true, "Error:", "Invalid file.", "hideDialogBox");
+		
 	}
 };
 var CommandStatus=function(value)
