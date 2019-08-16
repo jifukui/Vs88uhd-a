@@ -695,11 +695,14 @@ var showDialogBox = function(show, waring, title , subtitle, callback){
 		$("#kDialogBoxSubTitle").html(subtitle);
 		$("#kDialogBtnOk").click(function(){callFunction(callback,"OK")});
 		$("#kDialogBtnCancel").click(function(){callFunction(callback,"CANCEL")});
-
+		$("#kDialogDiv").show();
+		$("#kDialogBox").show();
 		$("#kDialogDiv").fadeIn(200, function(){
 			$("#kDialogBox").fadeIn(200);
 		});
 	} else {
+		$("#kDialogDiv").hide();
+		$("#kDialogBox").hide();
 		$("#kDialogBox").fadeOut(200, function(){
 			$("#kDialogDiv").fadeOut(200);
 		});
@@ -739,9 +742,9 @@ var SetStandByModeNoFade= function(){
 var netstate_init_sync_queries=function(){
     httpComm.setCommunicationEnabled(false);
     httpComm.Settings.NumberOfCommandsSendInGroup =1;//<24
-    httpComm.addHandler("LOCK-FP",AllLockModeHander);
+    httpComm.addHandler("SECUR",AllLockModeHander);
     httpComm.SyncQueriesList.Init();
-    httpComm.SyncQueriesList.Add("LOCK-FP?");//AFV模式
+    httpComm.SyncQueriesList.Add("SECUR?");//AFV模式
     routing_debug_query_count=0;
     httpComm.setCommunicationEnabled(true);
     refreshCommands();
@@ -761,7 +764,7 @@ var Device_Settings_sync_queries=function()
     httpComm.addHandler("NET-GATE", NetgateHandler);
     httpComm.addHandler("ETH-PORT 0,", NetTCPportHandler);
     httpComm.addHandler("ETH-PORT 1,", NetUDPportHandler);
-    httpComm.addHandler("LOCK-FP",AllLockModeHander);
+    httpComm.addHandler("SECUR",AllLockModeHander);
     httpComm.SyncQueriesList.Init();
     httpComm.SyncQueriesList.Add("MODEL?");
     httpComm.SyncQueriesList.Add("NAME?");
@@ -774,7 +777,7 @@ var Device_Settings_sync_queries=function()
     httpComm.SyncQueriesList.Add("NET-GATE?");
     httpComm.SyncQueriesList.Add("ETH-PORT? 0");
     httpComm.SyncQueriesList.Add("ETH-PORT? 1");
-    httpComm.SyncQueriesList.Add("LOCK-FP?");//AFV模式
+    httpComm.SyncQueriesList.Add("SECUR?");//AFV模式
     httpComm.setCommunicationEnabled(!0);
     refreshCommands();
 };
@@ -993,16 +996,32 @@ var jifukui_button_select=function(str,id,num)
 var fr_update_choosedFile=function()
 {
     var a=$("#HttpCommUploadIFrame #HttpCommUploadFile").val();
-    var file_name = document.forms['HttpCommUploadIFrame']['HttpCommUploadFile'].files[0];
-    if(""==a)
-        $("#fr_file_selected").html("Choose a file");
-    else
-    {
-        $("#HttpCommBtnUpload").removeClass("DisSetButton");
-        $("#HttpCommBtnUpload").addClass("SetButton");
+    var b = a.replace(/^.*[\\\/]/, "");
+    var file = document.getElementById("HttpCommUploadFile").files;
+	if (file[0].size > 2097152) 
+	{
+        $('#kDialogBtnCancel').hide();
+        $('#kDialogBtnOk').show();
+        showDialogBox(true, true, "Warning", "The maximum file size is 2MB.", "hideDialogBox");
+        return false;
+    }
+    var filetype = b.substr(b.lastIndexOf(".")).toLowerCase();
+	var filename = b.search(/^UPLOAD_KMR_88H2/i);
+	if(filetype==".img"&&filename==0)
+	{
+		$("#HttpCommBtnUpload").removeClass("DisSetButton");
+		$("#HttpCommBtnUpload").addClass("SetButton");
+		var file_name = document.forms['HttpCommUploadIFrame']['HttpCommUploadFile'].files[0];
 		ligObject.updatafile=a;
         $("#fr_file_selected").html(file_name.name);
-    }
+	}
+	else
+	{
+		$('#kDialogBtnCancel').hide();
+        $('#kDialogBtnOk').show();
+        showDialogBox(true, true, "Error:", "Invalid file.", "hideDialogBox");
+		$("#fr_file_selected").html("Choose a file");
+	}
 };
 var CommandStatus=function(value)
 {

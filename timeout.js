@@ -68,7 +68,7 @@ var TimeOut=function()
         str +="<td style='min-width: 200px;padding: 10px'></td>";
         str +="<td style='min-width: 30px;padding: 10px'><input type='checkbox' id='Timeoutcheckbox"+i+"' onclick='TimeoutCheckbox("+i+")'></td>";
         str +="<td style='min-width: 30px;padding: 10px'>"+data+"</td>";
-        str +="<td style='min-width: 30px;padding: 10px'><input type='number' min='1' max='999'  onkeydown='return Timeout_keydown("+i+",event)' id='timeouttext_"+i+"' onkeyup='Timeout_keyup("+i+")' onchange='TimeOut_Setting("+ i +")' onfocus='TimeoutFocus("+i+")'  value=''></td>";
+        str +="<td style='min-width: 30px;padding: 10px'><div class='tooltip' data-title='1~999'><input type='number' min='1' max='999'  onkeydown='return Timeout_keydown("+i+",event)' id='timeouttext_"+i+"' onkeyup='Timeout_keyup("+i+")' onchange='TimeOut_Setting("+ i +")' onfocus='TimeoutFocus("+i+")'  value=''></div></td>";
         str +="<td style='min-width: 20px;padding: 10px'>seconds</td>";
         str +="<td><div style='padding-left: 20px' id='timeputcheckbox_"+i+"'></div></td>";
         str +="</tr>";
@@ -78,7 +78,7 @@ var TimeOut=function()
     str +="<td style='min-width: 200px;padding: 10px'>Video signal lost timer</td>";
     str +="<td style='min-width: 30px;padding: 10px'></td>";
     str +="<td style='min-width: 30px;padding: 10px'></td>";
-    str +="<td style='min-width: 30px;padding: 10px'><input type='number' min='0' max='999' id='timeouttext_"+parseInt(ligObject.OutputCounts)+"'   onkeydown='return Timeout_keydown("+parseInt(ligObject.OutputCounts)+",event)' onkeyup='Timeout_keyup("+i+")' onchange='TimeOut_Setting("+ parseInt(ligObject.OutputCounts) +")' onfocus='TimeoutFocus("+parseInt(ligObject.OutputCounts)+")' value=''></td>";
+    str +="<td style='min-width: 30px;padding: 10px'><div class='tooltip' data-title='0~999'><input type='number' min='0' max='999' id='timeouttext_"+parseInt(ligObject.OutputCounts)+"'   onkeydown='return Timeout_keydown("+parseInt(ligObject.OutputCounts)+",event)' onkeyup='Timeout_keyup("+i+")' onchange='TimeOut_Setting("+ parseInt(ligObject.OutputCounts) +")' onfocus='TimeoutFocus("+parseInt(ligObject.OutputCounts)+")' value=''></div></td>";
     str +="<td style='min-width: 20px;padding: 10px'>seconds</td>";
     str +="<td style='min-width: 30px;padding: 10px'></td>";
     str +="</tr>";
@@ -172,7 +172,7 @@ var timeout_init_sync_queries=function()
     httpComm.Settings.NumberOfCommandsSendInGroup =ligObject.OutputCounts+3;//<24
     httpComm.addHandler("EXT-AV-SW-TIMEOUT", timeoutsettimeHandler);
     httpComm.addHandler("EXT-OUT-A-EN", timeoutsetaudioHandler);
-    httpComm.addHandler("LOCK-FP",AllLockModeHander);
+    httpComm.addHandler("SECUR",AllLockModeHander);
     httpComm.SyncQueriesList.Init();
     for(i=0;i<ligObject.OutputCounts;i++)
     {
@@ -180,7 +180,7 @@ var timeout_init_sync_queries=function()
     }
     httpComm.SyncQueriesList.Add("EXT-OUT-A-EN? *");
     httpComm.SyncQueriesList.Add("EXT-AV-SW-TIMEOUT? 0,"+parseInt(ligObject.OutputCounts+1)+",0");
-    httpComm.SyncQueriesList.Add("LOCK-FP?");//AFV模式
+    httpComm.SyncQueriesList.Add("SECUR?");//AFV模式
     httpComm.setCommunicationEnabled(true);
     refreshCommands();
 };

@@ -17,7 +17,8 @@ var openFirmwareDiv = function () {
 };
 
 var fr_update_submit_dialog_response = function (dialog_respose) {
-    if (sendfile != 3) {
+    if (sendfile != 3) 
+    {
         return false;
     }
     sendfile = 4;
@@ -299,17 +300,10 @@ var jifukui_updatefile = function () {
                 var a = ligObject.updatafile;
                 if (sendfile == 1) {
                     sendfile = 2;
+                    /*
                     a = a.replace(/^.*[\\\/]/, "");
                     var b = /(?:\.([^.]+))?$/.exec(a)[0];
-                    // var c=a.indexOf(b);
-                    // if(c>40)
-                    // {
-                    //     // alert("error:The file name must be 40 characters or less!");
-                    //     $('#kDialogBtnCancel').hide();
-                    //     $('#kDialogBtnOk').show();
-                    //     showDialogBox(true,true,"Warning","Please select HDMI Output or Analog Output.","hideDialogBox");
-                    //     return false;
-                    // }
+                   
                     var file = document.getElementById("HttpCommUploadFile").files;
                     if (file[0].size > 2097152) {
                         $('#kDialogBtnCancel').hide();
@@ -318,26 +312,13 @@ var jifukui_updatefile = function () {
                         return false;
                     }
                     var filetype = a.substr(a.lastIndexOf(".")).toLowerCase();
-                    var filename = a.search(/^UPLOAD_KMR_88H2/i);
-                    // if((filetype==".lba"||filetype==".lb1"||filetype==".lb2")&&filename==0)
-                    // {
-                    //     document.getElementById("kDialogBtnCancel").innerHTML="CLOSE";
-                    //     $('#kDialogBtnCancel').show();
-                    //     $('#kDialogBtnOk').show();
-                    //     showDialogBox(true,true,"Warning","<div>To upgrade your device firmware, click OK.</div><div>Do not interrupt the file transfer before completion. Doing so may damage the device</div>","jifukui_dialog");
-                    // }
-                    if (filetype == ".img" && filename == 0) {
-                        document.getElementById("kDialogBtnCancel").innerHTML = "CLOSE";
-                        $('#kDialogBtnCancel').show();
-                        $('#kDialogBtnOk').show();
-                        showDialogBox(true, true, "Warning", "<div>To upgrade your device image, click OK.</div><div>Do not interrupt the file transfer before completion. Doing so may damage the device</div>", "jifukui_dialog");
-                    }
-                    // else if(filetype==".lba"||filetype==".lb1"||filetype==".lb2")
-                    // {
-                    //     $('#kDialogBtnCancel').hide();
-                    //     $('#kDialogBtnOk').show();
-                    //     showDialogBox(true,true,"Error","The driver is incompatible with this device","hideDialogBox");
-                    // }
+                    var filename = a.search(/^UPLOAD_KMR_88H2/i);*/
+                    //if (filetype == ".img") {
+                    document.getElementById("kDialogBtnCancel").innerHTML = "CLOSE";
+                    $('#kDialogBtnCancel').show();
+                    $('#kDialogBtnOk').show();
+                    showDialogBox(true, true, "Warning", "<div>To upgrade your device image, click OK.</div><div>Do not interrupt the file transfer before completion. Doing so may damage the device</div>", "jifukui_dialog");
+                    /*}
                     else if (filename == 0) {
                         $('#kDialogBtnCancel').hide();
                         $('#kDialogBtnOk').show();
@@ -348,13 +329,15 @@ var jifukui_updatefile = function () {
                         $('#kDialogBtnOk').show();
                         showDialogBox(true, true, "Error:", "Invalid file", "hideDialogBox");
                     }
-                    return false;
+                    return false;*/
                 }
             }
         )
     }
-    else {
-        if (sendfile == 0) {
+    else 
+    {
+        if (sendfile == 0) 
+        {
             sendfile = 101;
             $("#HttpCommUploadIFrame").on("submit", function (a) {
                     if (sendfile == 101) {

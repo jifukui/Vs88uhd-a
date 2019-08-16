@@ -1232,7 +1232,7 @@ var routing_init_sync_queries = function () {
     httpComm.addHandler("EXT-AV-SW-SPEED", switchspeedHandler);
     httpComm.addHandler("VMUTE", outputSetVedioMuteHander);
     httpComm.addHandler("MTX-MODE", AFVForbidFlagHander);
-    httpComm.addHandler("LOCK-FP", AllLockModeHander);
+    httpComm.addHandler("SECUR", AllLockModeHander);
     httpComm.addHandler("EXT-AUD", switchAUDHandler);
     httpComm.addHandler("EXT-IN-ARC (\\d+,){" + parseInt(ligObject.InputCounts - 1) + "}\\d+", DeviceStepInStatus);
     httpComm.SyncQueriesList.Init();
@@ -1245,7 +1245,7 @@ var routing_init_sync_queries = function () {
     httpComm.SyncQueriesList.Add("DISPLAY?");
     httpComm.SyncQueriesList.Add("SIGNAL?");
     httpComm.SyncQueriesList.Add("MTX-MODE? *");
-    httpComm.SyncQueriesList.Add("LOCK-FP?");
+    httpComm.SyncQueriesList.Add("SECUR?");
     httpComm.SyncQueriesList.Add("EXT-AUD?");
     httpComm.SyncQueriesList.Add("EXT-IN-ARC? *");
     routing_debug_query_count = 0;
@@ -1273,7 +1273,7 @@ var switch_aba_sync_queries = function () {
         httpComm.addHandler("VOLUME", switchVolumeHandler);
         httpComm.addHandler("EXT-AUD", switchAUDHandler);
         httpComm.addHandler("MUTE", switchAbaMuteHandler);
-        httpComm.addHandler("LOCK-FP", AllLockModeHander);
+        httpComm.addHandler("SECUR", AllLockModeHander);
         httpComm.addHandler("MTX-MODE", ABAForbidFlagHander);
         httpComm.SyncQueriesList.Init();
         //httpComm.SyncQueriesList.Add("EXT-LABEL?");
@@ -1282,7 +1282,7 @@ var switch_aba_sync_queries = function () {
         httpComm.SyncQueriesList.Add("VOLUME?");
         httpComm.SyncQueriesList.Add("MUTE?");
         httpComm.SyncQueriesList.Add("BALANCE?");
-        httpComm.SyncQueriesList.Add("LOCK-FP?");
+        httpComm.SyncQueriesList.Add("SECUR?");
         httpComm.SyncQueriesList.Add("MTX-MODE? *");
         routing_debug_query_count = 0;
     }
@@ -1294,14 +1294,14 @@ var switch_aba_sync_queries = function () {
    
         httpComm.addHandler("EXT-AUD", switchAUDHandler);
     
-        httpComm.addHandler("LOCK-FP", AllLockModeHander);
+        httpComm.addHandler("SECUR", AllLockModeHander);
         httpComm.addHandler("MTX-MODE", ABAForbidFlagHander);
         httpComm.SyncQueriesList.Init();
         //httpComm.SyncQueriesList.Add("EXT-LABEL?");
         httpComm.SyncQueriesList.Add("EXT-OUT-ARC?");
         httpComm.SyncQueriesList.Add("EXT-AUD?");
     
-        httpComm.SyncQueriesList.Add("LOCK-FP?");
+        httpComm.SyncQueriesList.Add("SECUR?");
         httpComm.SyncQueriesList.Add("MTX-MODE? *");
         routing_debug_query_count = 0;
     }
@@ -2027,17 +2027,18 @@ var switchARCHandler = function (reply) {
 
 var AllLockModeHander = function (reply) {
     var rep = $.trim(reply.parameters);
-    var str;
-    if (rep.length > 0) {
-        if ((rep.search(/off/i)!=-1) || rep == 0) {
-            $("#lock-fp").removeClass("iconLock");
-            $("#lock-fp").addClass("iconUnlock");
-        }
-        else {
-            $("#lock-fp").removeClass("iconUnlock");
-            $("#lock-fp").addClass("iconLock");
-        }
+    
+    if (rep==0) 
+    {
+        $("#lock-fp").removeClass("iconLock");
+        $("#lock-fp").addClass("iconUnlock");
     }
+    else 
+    {
+        $("#lock-fp").removeClass("iconUnlock");
+        $("#lock-fp").addClass("iconLock");
+    }
+    
     if (httpCommFrame.privilege == 0) {
         $("#mainuser").text("Admin");
     }

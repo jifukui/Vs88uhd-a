@@ -135,9 +135,9 @@ var SetModeRadio=function(value)
 var AutoSwitchSettingsRadio = function(){
     var type;
     var content = "<table>";
-    content +="<div><input name='mode' id='RadioMode0' style='width: 10px' type='radio' checked='true' onclick='SetModeRadio(0) '>Manual</div>";
-    content +="<div><input name='mode' id='RadioMode2' style='width: 10px' type='radio' onclick='SetModeRadio(2)'>Priority</div>";
-    content +="<div><input name='mode' id='RadioMode1' style='width: 10px' type='radio' onclick='SetModeRadio(1)'>Last connected<div>";
+    content +="<div><input name='mode' id='RadioMode0'  type='radio' checked='true' onclick='SetModeRadio(0) '>Manual</div>";
+    content +="<div><input name='mode' id='RadioMode2'  type='radio' onclick='SetModeRadio(2)'>Priority</div>";
+    content +="<div><input name='mode' id='RadioMode1'  type='radio' onclick='SetModeRadio(1)'>Last connected<div>";
     content += "</table>";
     return content;
 };
@@ -242,12 +242,12 @@ var autoseitch_init_sync_queries=function()
     httpComm.addHandler("MTX-MODE", AtuoModeHandler);
     httpComm.addHandler("EXT-SM-LC-LIST", AtuoLastHandler);
     httpComm.addHandler("EXT-PRIORITY", AtuoPriorityHandler);
-    httpComm.addHandler("LOCK-FP",AllLockModeHander);
+    httpComm.addHandler("SECUR",AllLockModeHander);
     httpComm.SyncQueriesList.Init();
     httpComm.SyncQueriesList.Add("MTX-MODE? "+OutButton);
     httpComm.SyncQueriesList.Add("EXT-SM-LC-LIST? "+OutButton);
     httpComm.SyncQueriesList.Add("EXT-PRIORITY? 1,"+OutButton);
-    httpComm.SyncQueriesList.Add("LOCK-FP?");//AFV模式
+    httpComm.SyncQueriesList.Add("SECUR?");//AFV模式
     httpComm.setCommunicationEnabled(true);
     refreshCommands();
 };

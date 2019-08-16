@@ -36,9 +36,6 @@ function EdidReader(fileName)
                 if (EdidReader.instance.onEdidError != null)
                     EdidReader.instance.onEdidError(EdidReader.instance);
             }
-            
-            
-            
         });
     };
     this.setEdidData = function (data)

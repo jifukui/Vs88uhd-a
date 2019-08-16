@@ -287,7 +287,7 @@ var stepin_init_sync_queries=function()
     httpComm.addHandler("REMOTE-INFO", remoteInfoHandler);
     httpComm.addHandler("PROG-ACTION", stepinBtnStateHandler);
     httpComm.addHandler("STP-CNT-STA", StepinBtnStateHandler);
-    httpComm.addHandler("LOCK-FP",AllLockModeHander);
+    httpComm.addHandler("SECUR",AllLockModeHander);
     httpComm.SyncQueriesList.Init();
     for(var i=0;i<(parseInt(stepIN_num_btn[ActionInput]));i++)
     {
@@ -295,7 +295,7 @@ var stepin_init_sync_queries=function()
     }
     httpComm.SyncQueriesList.Add("REMOTE-INFO? 0,"+(parseInt(ActionInput)+1));
     httpComm.SyncQueriesList.Add("STP-CNT-STA?");
-    httpComm.SyncQueriesList.Add("LOCK-FP?");//AFV模式
+    httpComm.SyncQueriesList.Add("SECUR?");//AFV模式
     routing_debug_query_count=0;
     httpComm.setCommunicationEnabled(true);
     refreshCommands();

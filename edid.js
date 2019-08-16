@@ -119,7 +119,7 @@ var edid_init_sync_queries = function()
 	httpComm.addHandler("SET-IN-CAP \\d,\\d,\\d", inportCapHandler);
     httpComm.addHandler("INPUT-TYPE ", edidSignalModeHandler);
     //httpComm.addHandler("LOCK-EDID \\d,\\d", edidLockModeHandler);
-    httpComm.addHandler("LOCK-FP",AllLockModeHander);
+    httpComm.addHandler("SECUR",AllLockModeHander);
 	httpComm.SyncQueriesList.Init();
 	httpComm.SyncQueriesList.Add("DISPLAY?");
 	httpComm.SyncQueriesList.Add("SET-IN-CAP?");
@@ -134,7 +134,7 @@ var edid_init_sync_queries = function()
     httpComm.SyncQueriesList.Add("LOCK-EDID? 7");
     httpComm.SyncQueriesList.Add("LOCK-EDID? 8");
     */
-    httpComm.SyncQueriesList.Add("LOCK-FP?");//AFV模式
+    httpComm.SyncQueriesList.Add("SECUR?");//AFV模式
 	httpComm.setCommunicationEnabled(true);
 	refreshCommands();
 };
@@ -835,36 +835,11 @@ var CopyEdidCommand=function(reply)
     {
         flag_sendedidcommand=31;
         if(reply=="OK")
-        {
+        { 
             $('#kDialogBtnCancel').hide();
             $('#kDialogBtnOk').hide();
             showDialogBox(true,true,"Message","EDID is copying ... ... ... ...","hideDialogBox");
-            var resp = sendAndWaitCommand("CPEDID "+_edid_actualSourceType+","+edid_index_scrous+","+"0"+"," +edid_input_mask+","+edid_safe_mode);
-            if(resp.indexOf("ERR") > -1)
-            {
-                //$('#kDialogBtnCancel').hide();
-                $('#kDialogBtnOk').show();
-                showDialogBox(true,true,"Warning","EDID is invalid or not supported.","hideDialogBox");
-            }
-            else {
-                var TitleStr="";
-                TitleStr +="<div class='txtProperty'></div>";
-                TitleStr +="<table><tr>";
-
-                TitleStr +="<td><table>";
-                TitleStr +="<div style='max-width: 19px;max-height: 19px' class='icon_right'>";
-                TitleStr +="</table></td>";
-
-                TitleStr +="<td><table>";
-                TitleStr +="<td>The EDID was copied successfully.</td>";
-                TitleStr +="</table></td>";
-
-                TitleStr +="</tr></table>";
-
-                //$('#kDialogBtnCancel').hide();
-                $('#kDialogBtnOk').show();
-                showDialogBox(true,true,"Message",TitleStr,"EDIDCopyhideDialogBox");
-            }
+			setTimeout("SendCopyEdidCommand()",10);
         }
         else
         {
@@ -872,7 +847,33 @@ var CopyEdidCommand=function(reply)
         }
     }
 };
+var SendCopyEdidCommand=function()
+{
+	var resp = sendAndWaitCommand("CPEDID "+_edid_actualSourceType+","+edid_index_scrous+","+"0"+"," +edid_input_mask+","+edid_safe_mode);
+    if(resp.indexOf("ERR") > -1)
+    {
+         $('#kDialogBtnOk').show();
+         showDialogBox(true,true,"Warning","EDID is invalid or not supported.","hideDialogBox");
+    }
+    else
+	{
+          var TitleStr="";
+          TitleStr +="<div class='txtProperty'></div>";
+          TitleStr +="<table><tr>";
 
+          TitleStr +="<td><table>";
+          TitleStr +="<div style='max-width: 19px;max-height: 19px' class='icon_right'>";
+          TitleStr +="</table></td>";
+
+          TitleStr +="<td><table>";
+          TitleStr +="<td>The EDID was copied successfully.</td>";
+          TitleStr +="</table></td>";
+
+          TitleStr +="</tr></table>";  
+          $('#kDialogBtnOk').show();
+          showDialogBox(true,true,"Message",TitleStr,"EDIDCopyhideDialogBox");
+     }
+}
 function iframeload()
 {
     edidscriptToLoadIndex = 0;

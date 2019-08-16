@@ -148,11 +148,11 @@ var SetandRecall_init_sync_queries=function()
     httpComm.setCommunicationEnabled(false);
     httpComm.Settings.NumberOfCommandsSendInGroup =2;//<24
     httpComm.addHandler("PRST-LST", MacallModeHandler);
-    httpComm.addHandler("LOCK-FP",AllLockModeHander);
+    httpComm.addHandler("SECUR",AllLockModeHander);
     httpComm.SyncQueriesList.Init();
     //httpComm.SyncQueriesList.Add("EXT-PRST-STO?");
     httpComm.SyncQueriesList.Add("PRST-LST?");
-    httpComm.SyncQueriesList.Add("LOCK-FP?");//AFV模式
+    httpComm.SyncQueriesList.Add("SECUR?");//AFV模式
     routing_debug_query_count=0;
     httpComm.setCommunicationEnabled(true);
     refreshCommands();
