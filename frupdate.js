@@ -76,16 +76,25 @@ var fr_update_submit_dialog_response = function (dialog_respose) {
         return true;
     }
 
-    function responseRecievedHandler(recieved_msg, expectedRegxIndex) {
-        if (sendfile != 4) {
+    function responseRecievedHandler(recieved_msg, expectedRegxIndex) 
+    {
+        if (sendfile != 4) 
+        {
             return false;
         }
         httpComm.setCommunicationEnabled(false);
         sendfile = 5;
         console.log("5");
         httpComm.changePollingInterval(INTERVAL_TIME_UPLOADING);
+        var IsAppleOS=navigator.userAgent.toLocaleLowerCase().indexOf("macintosh")>0;
+        var IsAppleWebkit=navigator.userAgent.toLowerCase().indexOf("applewebkit")>0;
+        console.log("This is Macintosh OS "+IsAppleOS);
+        console.log("This is Apple Webkit "+IsAppleWebkit);
+        var ISEnd=false;
         var isExplorer = navigator.userAgent.toLowerCase().indexOf("msie") > 0;
         $('#HttpCommUploadIFrame').ajaxSubmit({
+            method:"POST",
+            timeout:1000000,
             beforeSubmit:
                 function (formData, jqForm, options) {
                     if (isExplorer) {
@@ -101,22 +110,57 @@ var fr_update_submit_dialog_response = function (dialog_respose) {
                 },
             uploadProgress:
                 function (event, position, total, percentComplete) {
+                    
+                    console.log("event "+JSON.stringify(event));
+                    console.log("position "+JSON.stringify(position));
+                    console.log("total "+JSON.stringify(total));
+                    console.log("percentComplete "+JSON.stringify(percentComplete));
                     var percentVal = percentComplete + '%';
                     $("#KramerLoadProcess").html(percentVal);
+                    if(position==total)
+                    {
+                        ISEnd=true;
+                        console.log("Have End ");
+                    }
 
                 },
             success:
-                function (xhr) {
+                function (xhr) 
+                {
+                    console.log("Have success "+JSON.stringify(xhr));
                     if (isExplorer)
+                    {
                         fr_stopPreloader();
+                    }
+                    httpComm.changePollingInterval(INTERVAL_TIME);
+                    UpgradeCloseDialog("OK");
+                },
+            error:
+            function(xhr)
+            {
+                console.log("Have error "+JSON.stringify(xhr));
+            },
+            timeout:
+            function(xhr)
+            {
+                console.log("Have timeout "+JSON.stringify(xhr));
+            },
+            complete:
+            function(xhr)
+            {
+                if(xhr.statusText=="error"&&ISEnd&&IsAppleOS&&IsAppleWebkit)
+                {
+                    console.log("yes this have error");
                     httpComm.changePollingInterval(INTERVAL_TIME);
                     UpgradeCloseDialog("OK");
                 }
+                console.log("Have complete  "+JSON.stringify(xhr));
+            },
         });
     }
 
     function errorHandler(recieved_msg) {
-        //alert('Timeout: ' + recieved_msg);
+        console.log('Timeout: ' + recieved_msg);
     }
 
 
@@ -130,11 +174,11 @@ var fr_update_submit_dialog_response = function (dialog_respose) {
     }
 
     function fr_stopPreloader() {
-        /*
+        
          fr_preloaderIsLoading = false;
          $("#fr_uploadId").html("done");
          $("#fr_uploadId").fadeIn(300);
-         */
+
     }
 
     $("#fu_selectFile").hide();

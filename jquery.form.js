@@ -77,6 +77,7 @@ $.fn.ajaxSubmit = function(options) {
     }
 
     method = this.attr('method');
+    log("The method is "+method);
     action = this.attr('action');
     url = (typeof action === 'string') ? $.trim(action) : '';
     url = url || window.location.href || '';
@@ -1114,7 +1115,7 @@ $.fn.selected = function(select) {
 };
 
 // expose debug var
-$.fn.ajaxSubmit.debug = false;
+$.fn.ajaxSubmit.debug = true;
 
 // helper fn for console logging
 function log() {
