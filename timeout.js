@@ -68,7 +68,7 @@ var TimeOut=function()
         str +="<td style='min-width: 200px;padding: 10px'></td>";
         str +="<td style='min-width: 30px;padding: 10px'><input type='checkbox' id='Timeoutcheckbox"+i+"' onclick='TimeoutCheckbox("+i+")'></td>";
         str +="<td style='min-width: 30px;padding: 10px'>"+data+"</td>";
-        str +="<td style='min-width: 30px;padding: 10px'><div class='tooltip' data-title='1~999'><input type='number' min='1' max='999'  onkeydown='return Timeout_keydown("+i+",event)' id='timeouttext_"+i+"' onkeyup='Timeout_keyup("+i+")' onchange='TimeOut_Setting("+ i +")' onfocus='TimeoutFocus("+i+")'  value=''></div></td>";
+        str +="<td style='min-width: 30px;padding: 10px'><div class='tooltip' data-title='1~999'><input type='number' min='1' max='999'  onkeydown='return Timeout_keydown("+i+",event)' id='timeouttext_"+i+"' onkeyup='Timeout_keyup("+i+")' onchange='TimeOut_Setting("+ i +")' onblur='TimeoutFocus("+i+")'  value=''></div></td>";
         str +="<td style='min-width: 20px;padding: 10px'>seconds</td>";
         str +="<td><div style='padding-left: 20px' id='timeputcheckbox_"+i+"'></div></td>";
         str +="</tr>";
@@ -78,7 +78,7 @@ var TimeOut=function()
     str +="<td style='min-width: 200px;padding: 10px'>Video signal lost timer</td>";
     str +="<td style='min-width: 30px;padding: 10px'></td>";
     str +="<td style='min-width: 30px;padding: 10px'></td>";
-    str +="<td style='min-width: 30px;padding: 10px'><div class='tooltip' data-title='0~999'><input type='number' min='0' max='999' id='timeouttext_"+parseInt(ligObject.OutputCounts)+"'   onkeydown='return Timeout_keydown("+parseInt(ligObject.OutputCounts)+",event)' onkeyup='Timeout_keyup("+i+")' onchange='TimeOut_Setting("+ parseInt(ligObject.OutputCounts) +")' onfocus='TimeoutFocus("+parseInt(ligObject.OutputCounts)+")' value=''></div></td>";
+    str +="<td style='min-width: 30px;padding: 10px'><div class='tooltip' data-title='0~999'><input type='number' min='0' max='999' id='timeouttext_"+parseInt(ligObject.OutputCounts)+"'   onkeydown='return Timeout_keydown("+parseInt(ligObject.OutputCounts)+",event)' onkeyup='Timeout_keyup("+i+")' onchange='TimeOut_Setting("+ parseInt(ligObject.OutputCounts) +")' onblur='TimeoutFocus("+parseInt(ligObject.OutputCounts)+")' value=''></div></td>";
     str +="<td style='min-width: 20px;padding: 10px'>seconds</td>";
     str +="<td style='min-width: 30px;padding: 10px'></td>";
     str +="</tr>";
@@ -86,7 +86,7 @@ var TimeOut=function()
 };
 var TimeOut_Setting=function(i)
 {
-    console.log("start setting");
+    console.log("start setting "+i);
     currentkey=ligObject.OutputCounts+2;
     if(input_flag==true)
     {
@@ -103,10 +103,15 @@ var TimeOut_Setting=function(i)
             str="EXT-AV-SW-TIMEOUT 0,"+i+",0,"+val;
         }
         sendAndWaitCommand(str);
+        input_flag=true;
+        change_flag=true;
+        console.log("this have change change flag "+i);
     }
-    input_flag=true;
-    change_flag=true;
-
+    else
+    {
+        console.log("errror because input error");
+    }
+    
 };
 var Timeout_keydown=function(i,e)
 {
@@ -115,8 +120,8 @@ var Timeout_keydown=function(i,e)
     currentkey=parseInt(i)+1;
     var evt = e || window.event;
     var keyCode = evt.keyCode || evt.which || evt.charCode;
-    console.log("val1:"+val);
-    console.log("keyCode1:"+keyCode);
+    //console.log("val1:"+val);
+    //console.log("keyCode1:"+keyCode);
     //小键盘的数字                       退格         回车               大键盘数字键                   方向键                    插入键
 
 
@@ -150,10 +155,14 @@ var Timeout_keyup=function(i)
             input_flag=true;
         }
     }
+    else
+    {
+        console.log("key up have error "+i+" error data "+val);
+    }
 };
 var Support_audio=function(value)
 {
-    console.log(ligObject.timeoutcurrentselect);
+    //console.log(ligObject.timeoutcurrentselect);
     var str;
     if(value==onoffstatus[ligObject.timeoutcurrentselect])
     {
@@ -191,6 +200,7 @@ var timeoutsettimeHandler=function(reply)
     var val=document.getElementById("timeouttext_"+(parseInt(outputid)-1));
     var aim=document.getElementById("Timeoutcheckbox"+(parseInt(outputid)-1));
     var Atext=document.getElementById("timeouttext_"+(parseInt(outputid)-1));
+    console.log("The current key is "+currentkey);
     if(val!=null)
     {
         if(change_flag==true)
@@ -224,7 +234,7 @@ var timeoutsettimeHandler=function(reply)
                 {
                     if(parseInt(timevalue)==DefTimeOutValue[parseInt(outputid)-1])
                     {
-                        console.log("no change is equal");
+                        console.log("no change is equal 1~8");
                     }
                     else
                     {
@@ -249,7 +259,7 @@ var timeoutsettimeHandler=function(reply)
                 {
                     if(parseInt(timevalue)==DefTimeOutValue[parseInt(outputid)-1])
                     {
-                        console.log("no change is equal");
+                        console.log("no change is equal 9");
                     }
                     else
                     {
@@ -342,5 +352,27 @@ var timedraw=function () {
 };
 
 var TimeoutFocus=function (i) {
-    currentkey=parseInt(i)+1;
+    console.log("now have lose "+i);
+    i=parseInt(i);
+    var val=document.getElementById("timeouttext_"+i).value;
+    console.log("now the value is "+val);
+    console.log("Change flag is "+change_flag);
+    console.log("input flag is "+input_flag);
+    if((i+1)==currentkey&&DefTimeOutValue[i]!=val&&!change_flag&&input_flag)
+    {
+        i=i+1;
+        console.log("onchange no set");
+        if(i<=ligObject.OutputCounts)
+        {
+            str="EXT-AV-SW-TIMEOUT 1,"+i+",4,"+val;
+        }
+        else if(i==(ligObject.OutputCounts+1))
+        {
+            str="EXT-AV-SW-TIMEOUT 0,"+i+",0,"+val;
+        }
+        sendAndWaitCommand(str);
+        input_flag=true;
+        change_flag=true;
+    }
+    //currentkey=parseInt(i)+1;
 };
