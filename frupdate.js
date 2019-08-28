@@ -84,6 +84,7 @@ var fr_update_submit_dialog_response = function (dialog_respose) {
         }
         httpComm.setCommunicationEnabled(false);
         sendfile = 5;
+        showDialogBox(true,true);
         console.log("5");
         httpComm.changePollingInterval(INTERVAL_TIME_UPLOADING);
         var IsAppleOS=navigator.userAgent.toLocaleLowerCase().indexOf("macintosh")>0;
@@ -111,10 +112,10 @@ var fr_update_submit_dialog_response = function (dialog_respose) {
             uploadProgress:
                 function (event, position, total, percentComplete) {
                     
-                    console.log("event "+JSON.stringify(event));
-                    console.log("position "+JSON.stringify(position));
-                    console.log("total "+JSON.stringify(total));
-                    console.log("percentComplete "+JSON.stringify(percentComplete));
+                    //console.log("event "+JSON.stringify(event));
+                    //console.log("position "+JSON.stringify(position));
+                    //console.log("total "+JSON.stringify(total));
+                    //console.log("percentComplete "+JSON.stringify(percentComplete));
                     var percentVal = percentComplete + '%';
                     $("#KramerLoadProcess").html(percentVal);
                     if(position==total)
@@ -156,6 +157,10 @@ var fr_update_submit_dialog_response = function (dialog_respose) {
                     console.log("yes this have error");
                     //httpComm.changePollingInterval(INTERVAL_TIME);
                     //UpgradeCloseDialog("OK");
+                }
+                else if(ISEnd)
+                {
+                    console.log("have over");
                 }
                 else
                 {

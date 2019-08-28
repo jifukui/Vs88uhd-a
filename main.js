@@ -7,7 +7,7 @@
 var deviceXML = null;
 var httpComm = null;
 
-document.ontouchmove = function(e) {e.preventDefault()};
+//document.ontouchmove = function(e) {e.preventDefault()};
 
 /**********
 * load

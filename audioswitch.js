@@ -186,7 +186,7 @@ var vaSettings_addPriority=function()
     for(var b=0;b<ligObject.InputCounts;b++)
     {
         var c=PriarityStatues[b];
-        isNaN(c)||(content+="<li id='plIndex"+c+"' data-index='"+c+"'><div>"+_switchInputTableNames[c-1]+"</div></li>");
+        isNaN(c)||(content+="<li id='plIndex"+c+"' data-index='"+c+"' ontouchstart='CloseSort()'><div>"+_switchInputTableNames[c-1]+"</div></li>");
     }
     content+="</ul></div>";
     content+="</td>";
@@ -334,7 +334,7 @@ var AtuoPriorityHandler=function(reply)
                     onUpdate:function(a)
                     {
                         ASSPriority();
-
+                        OpenSort();
                     }
                 }
             )
@@ -354,3 +354,30 @@ var setlastconnect=function()
     str=str.join();
     return str;
 };
+var CloseSort=function()
+{
+    console.log("close sort");
+    if(myscroll)
+    {
+        console.log("start close");
+        myscroll.disable();
+        var transform=["transform","-ms-transform","-moz-transform","-webkit-transform","-o-transform"];
+        for(let i=0;i<transform.length;i++)
+        {
+            console.log("The i is "+i);
+            if($("#contentBox").css(transform[i])!="none")
+            {
+                $("#contentBox").css(transform[i],"none");
+                console.log(transform[i]);
+            }
+        }
+    }
+}
+var OpenSort=function()
+{
+    console.log("open sort");
+    if(myscroll)
+    {
+        myscroll.enable();
+    }
+}

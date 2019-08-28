@@ -82,7 +82,7 @@ var AbaAudioOutputs = function () {
     str += "</tr>";
     var i = 0, data = "";
     for (i; i < ligObject.OutputCounts; i++) {
-        str += "<tr>";
+        str += "<tr style='height:37px'>";
         //Label
         data = OutputLabelName[i];
         str += "<td style='min-width: 100px' id='ABA_Label" + i + "'>" + data + "</td>";
@@ -102,21 +102,21 @@ var AbaAudioOutputs = function () {
 var AbaAnalogOutputs = function () {
     var str = "<table><tr>";
     str += "<td style='min-width: 130px' align='center'>Volume</td>";
-    str += "<td style='min-width: 30px' align='center'>dB</td>";
+    str += "<td style='min-width: 35px' align='center'>dB</td>";
     str += "<td style='min-width: 30px' align='center'>Mute</td>";
     str += "<td style='min-width: 130px' align='center'>Balance</td>";
     str += "<td style='min-width: 30px' align='center'></td>";
     str += "</tr>";
     var i = 0;
     for (i; i < ligObject.OutputCounts; i++) {
-        str += "<tr>";
+        str += "<tr style='height:37px'>";
         //Volume
-        str += "<td style='min-width: 130px;height: 32px''><input style='width: 100px' type='range' min='0' max='100' step='1'  id='Output_Volume" + i + "' onchange='Output_Volume_Range(\"" + i + "\")' onmousedown='Output_Volume_Range_mousedown(\"" + i + "\")' onmouseup='Output_Volume_Range_mouseup(\"" + i + "\")'/></td>";
-        str += "<td style='min-width: 30px;height: 32px''><input type='test' onkeydown='return vHoldBack(\"" + i + "\",event)' oninput='volumeText(\"" + i + "\")' onblur='sendVolumeData(\"" + i + "\")' style='width: 27px' value='0' id='" + "OutputVolumeValue" + i + "' ></td>";
+        str += "<td style='min-width: 130px;height: 32px''><input style='width: 100px' type='range' min='0' max='100' step='1'  id='Output_Volume" + i + "' onchange='Output_Volume_Range(\"" + i + "\")' onmousedown='Output_Volume_Range_mousedown(\"" + i + "\")' onmouseup='Output_Volume_Range_mouseup(\"" + i + "\")' ontouchstart='CloseSilder()'/></td>";
+        str += "<td style='min-width: 35px;height: 32px''><input type='test' onkeydown='return vHoldBack(\"" + i + "\",event)' oninput='volumeText(\"" + i + "\")' onblur='sendVolumeData(\"" + i + "\")' style='width: 31px' value='0' id='" + "OutputVolumeValue" + i + "' ></td>";
         //Mute('iconSwitchVideo', 'iconMuteVideo');
         str += "<td style='min-width: 30px;height: 32px' align-items: center'><div style='align-items: center ' class='tooltip iconSwitchAudio iconMuteAudio mousePointer' id='Output_Mute" + i + "' onclick='Output_Mute(\"" + i + "\")'/></td>";
         //Balance
-        str += "<td style='min-width: 130px;height: 32px''><input  style='width: 100px' type='range' min='0' max='100' step='1'  id='Output_Balance" + i + "' onchange='Output_Balance_Range(\"" + i + "\")' onmousedown='Output_Balance_Range_mousedown(\"" + i + "\")' onmouseup='Output_Balance_Range_mouseup(\"" + i + "\")'/></td>";
+        str += "<td style='min-width: 130px;height: 32px''><input  style='width: 100px' type='range' min='0' max='100' step='1'  id='Output_Balance" + i + "' onchange='Output_Balance_Range(\"" + i + "\")' onmousedown='Output_Balance_Range_mousedown(\"" + i + "\")' onmouseup='Output_Balance_Range_mouseup(\"" + i + "\")'ontouchstart='CloseSilder()' /></td>";
         str += "<td style='min-width: 30px;height: 32px''></div><div><input type='text' onkeydown='return bHoldBack(\"" + i + "\",event)' oninput='blanceText(\"" + i + "\")' onblur='sendBlanceData(\"" + i + "\")' style='width: 23px' value='30' id='OutputBalanceValue" + i + "' ></td>";
         str += "</tr>";
     }
@@ -137,7 +137,7 @@ var AbaInputs = function () {
     if (ligObject.InputCounts >= ligObject.OutputCounts) {
         for (i; i < ligObject.InputCounts; i++) {
             num = parseInt(i) + 1;
-            str += "<tr>";
+            str += "<tr style='height:37px'>";
             //Input Digital
             str += "<td style='min-width: 30px'><input style='width: 50px;height: 32px' type='button' value='" + num + "' id='Input_Digital" + i + "' onclick='Input_Digital_Button(\"" + i + "\")'/></td>";
 
@@ -156,7 +156,7 @@ var AbaInputs = function () {
     else {
         for (i; i < ligObject.OutputCounts; i++) {
             num = parseInt(i) + 1;
-            str += "<tr>";
+            str += "<tr style='height:37px'>";
             //Input Digital
             if (i < ligObject.InputCounts) {
                 str += "<td style='min-width: 30px'><input style='width: 50px;height: 32px' type='button' value='" + num + "' id='Input_Digital" + i + "' onclick='Input_Digital_Button(\"" + i + "\")'/></td>";
@@ -304,8 +304,10 @@ var Output_Volume_Range = function (id) {
     data = val1.value;
     document.getElementById(val2).value = Volume_DBValue(data);
     str = "VOLUME " + (parseInt(id) + 1) + "," + data;
+    OpenSilder();
     sendAndWaitCommand(str);
     console.log("suceess1")
+    
 };
 var vHoldBack = function (id, event) {
     var key = event.keyCode;
@@ -2268,4 +2270,22 @@ var InputARCSwitchSelected = function (type, value, inid) {
 var SwitchARCCloseDialog = function () {
     console.log("a  hahahhah");
 };
+var CloseSilder=function()
+{
+    console.log("close");
+    if(myscroll)
+    {
+        console.log("close");
+        myscroll.disable();
+    }
+}
+var OpenSilder=function()
+{
+    console.log("open");
+    if(myscroll)
+    {
+        console.log("open")
+        myscroll.enable();
+    }
+}
 //@ sourceURL=routing.js

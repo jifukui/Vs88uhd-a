@@ -1,7 +1,7 @@
 var _MODEL_NAME = "";
 var _CURRENT_MENU_ = "";
 var isMobile="";
-var myScroll;
+var myscroll=null;
 var av_sw_time_flag="";
 var DHCPMODEFLAG=true;
 var ligObject=new Object();
@@ -486,7 +486,7 @@ var openPropertiesDiv = function(value)
 	$("#contentDiv").html(menu);
 
 	openXmlAndPase(value, "contentBox");
-    centerContent();
+    //centerContent();
     setTimeout("Device_Settings_sync_queries()",100);
     showLoading(false);
 };
@@ -519,8 +519,12 @@ var centerContent = function()
     {
         if(isMobile.any)
         {
-            $("#propertiesBox").css({"max-height":$(window).height()-100+"px","max-width":$(window).width()+"px","overflow":"hidden"});
-            myscroll=new IScroll("#propertiesBox",{click:!0,mouseWheel:!0,tap:!0,scrollX:true,zoom:true});
+			$("#propertiesBox").css({"max-height":$(window).height()-100+"px","max-width":$(window).width()+"px","overflow":"hidden"});
+			if(myscroll)
+			{
+				myscroll.destroy();
+			}
+			myscroll=new IScroll("#propertiesBox",{click:!0,mouseWheel:!0,tap:!0,scrollX:true,zoom:true});
         }
         else
         {
@@ -532,7 +536,11 @@ var centerContent = function()
         if(isMobile.any)
         {
             $("#propertiesBox").css({"max-height":$(window).height()-100+"px",overflow:"hidden"});
-            myscroll=new IScroll("#propertiesBox",{click:!0,mouseWheel:!0,tap:!0,zoom:true});
+			if(myscroll)
+			{
+				myscroll.destroy();
+			}
+			myscroll=new IScroll("#propertiesBox",{click:!0,mouseWheel:!0,tap:!0,scrollX:true,zoom:true});
         }
         else
         {
@@ -543,11 +551,16 @@ var centerContent = function()
     {
         if(isMobile.any)
         {
-            $("#propertiesBox").css({"max-width":$(window).width()+"px",overflow:"hidden"});
-            myscroll=new IScroll("#propertiesBox",{click:!0,mouseWheel:!0,tap:!0,scrollX:true,zoom:true});
+			$("#propertiesBox").css({"max-width":$(window).width()+"px",overflow:"hidden"});
+			if(myscroll)
+			{
+				myscroll.destroy();
+			}
+			myscroll=new IScroll("#propertiesBox",{click:!0,mouseWheel:!0,tap:!0,scrollX:true,zoom:true});
         }
         else
         {
+			
             $("#propertiesBox").css({"max-width":$(window).width()+"px","overflow-x":"auto","overflow-y":"hidden"});
         }
     }
@@ -603,7 +616,7 @@ var openEdidDiv = function(file){
 	$("#contentDiv").load(file, function(){
 		var edidData = sendAndWaitCommand("gedid 0,1");
 		$("#edidContent").html(edidData);
-		centerContent();
+		//centerContent();
 		showLoading(false);
 	});
 };
