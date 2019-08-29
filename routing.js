@@ -102,7 +102,7 @@ var AbaAudioOutputs = function () {
 var AbaAnalogOutputs = function () {
     var str = "<table><tr>";
     str += "<td style='min-width: 130px' align='center'>Volume</td>";
-    str += "<td style='min-width: 35px' align='center'>dB</td>";
+    str += "<td style='min-width: 30px' align='center'>dB</td>";
     str += "<td style='min-width: 30px' align='center'>Mute</td>";
     str += "<td style='min-width: 130px' align='center'>Balance</td>";
     str += "<td style='min-width: 30px' align='center'></td>";
@@ -112,12 +112,12 @@ var AbaAnalogOutputs = function () {
         str += "<tr style='height:37px'>";
         //Volume
         str += "<td style='min-width: 130px;height: 32px''><input style='width: 100px' type='range' min='0' max='100' step='1'  id='Output_Volume" + i + "' onchange='Output_Volume_Range(\"" + i + "\")' onmousedown='Output_Volume_Range_mousedown(\"" + i + "\")' onmouseup='Output_Volume_Range_mouseup(\"" + i + "\")' ontouchstart='CloseSilder()'/></td>";
-        str += "<td style='min-width: 35px;height: 32px''><input type='test' onkeydown='return vHoldBack(\"" + i + "\",event)' oninput='volumeText(\"" + i + "\")' onblur='sendVolumeData(\"" + i + "\")' style='width: 31px' value='0' id='" + "OutputVolumeValue" + i + "' ></td>";
+        str += "<td style='min-width: 30px;height: 32px''><input type='test' onkeydown='return vHoldBack(\"" + i + "\",event)' oninput='volumeText(\"" + i + "\")' onblur='sendVolumeData(\"" + i + "\")' style='width: 30px' value='0' id='" + "OutputVolumeValue" + i + "' ></td>";
         //Mute('iconSwitchVideo', 'iconMuteVideo');
         str += "<td style='min-width: 30px;height: 32px' align-items: center'><div style='align-items: center ' class='tooltip iconSwitchAudio iconMuteAudio mousePointer' id='Output_Mute" + i + "' onclick='Output_Mute(\"" + i + "\")'/></td>";
         //Balance
         str += "<td style='min-width: 130px;height: 32px''><input  style='width: 100px' type='range' min='0' max='100' step='1'  id='Output_Balance" + i + "' onchange='Output_Balance_Range(\"" + i + "\")' onmousedown='Output_Balance_Range_mousedown(\"" + i + "\")' onmouseup='Output_Balance_Range_mouseup(\"" + i + "\")'ontouchstart='CloseSilder()' /></td>";
-        str += "<td style='min-width: 30px;height: 32px''></div><div><input type='text' onkeydown='return bHoldBack(\"" + i + "\",event)' oninput='blanceText(\"" + i + "\")' onblur='sendBlanceData(\"" + i + "\")' style='width: 23px' value='30' id='OutputBalanceValue" + i + "' ></td>";
+        str += "<td style='min-width: 30px;height: 32px''></div><div><input type='text' onkeydown='return bHoldBack(\"" + i + "\",event)' oninput='blanceText(\"" + i + "\")' onblur='sendBlanceData(\"" + i + "\")' style='width: 30px' value='30' id='OutputBalanceValue" + i + "' ></td>";
         str += "</tr>";
     }
     str += "</tr></table>";
@@ -434,21 +434,27 @@ var sendBlanceData = function (id) {
 var Output_Mute = function (id) {
     var name = "#Output_Mute" + id;
     var volstr = "Output_Volume" + id;
+    var voltx="OutputVolumeValue"+id;
     var balstr = "Output_Balance" + id;
+    var baltx="OutputBalanceValue"+id;
     id = parseInt(id) + 1;
     var str = "";
     if ($(name).hasClass("iconMuteAudio")) {
         $(name).removeClass("iconMuteAudio");
         $(name).addClass("iconSwitchAudio");
-        document.getElementById(volstr).disabled = false;
-        document.getElementById(balstr).disabled = false;
+        document.getElementById(volstr).disabled=false;
+        document.getElementById(voltx).disabled=false;
+        document.getElementById(balstr).disabled=false;
+        document.getElementById(baltx).disabled=false;
         str = "MUTE " + id + "," + 0;
     }
     else {
         $(name).removeClass("iconSwitchAudio");
         $(name).addClass("iconMuteAudio");
         document.getElementById(volstr).disabled = true;
+        document.getElementById(voltx).disabled=true;
         document.getElementById(balstr).disabled = true;
+        document.getElementById(baltx).disabled=true;
         str = "MUTE " + id + "," + 1;
     }
     sendAndWaitCommand(str);
@@ -1966,23 +1972,31 @@ var switchAbaMuteHandler = function (reply) {
     var rep = reply.parameters.split(',');
     var str;
     var volstr;
+    var voltx;
     var balstr;
+    var baltx;
     if (rep.length == ligObject.OutputCounts) {
         for (var i = 0; i < rep.length; i++) {
             str = "#Output_Mute" + i;
             volstr = "Output_Volume" + i;
+            voltx="OutputVolumeValue"+i;
             balstr = "Output_Balance" + i;
+            baltx="OutputBalanceValue"+i;
             $(str).removeClass("iconSwitchAudio");
             $(str).removeClass("iconMuteAudio");
             if (rep[i] == 1) {
                 $(str).addClass("iconMuteAudio");
                 document.getElementById(volstr).disabled = true;
+                document.getElementById(voltx).disabled=true;
                 document.getElementById(balstr).disabled = true;
+                document.getElementById(baltx).disabled=true;
             }
             else {
                 $(str).addClass("iconSwitchAudio");
-                document.getElementById(volstr).disabled = false;
-                document.getElementById(balstr).disabled = false;
+                document.getElementById(volstr).disabled=false;
+                document.getElementById(voltx).disabled=false;
+                document.getElementById(balstr).disabled=false;
+                document.getElementById(baltx).disabled=false;
             }
         }
     }

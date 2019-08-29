@@ -103,14 +103,14 @@ var TimeOut_Setting=function(i)
             str="EXT-AV-SW-TIMEOUT 0,"+i+",0,"+val;
         }
         sendAndWaitCommand(str);
-        input_flag=true;
-        change_flag=true;
-        console.log("this have change change flag "+i);
     }
     else
     {
         console.log("errror because input error");
     }
+    input_flag=true;
+    change_flag=true;
+    //console.log("this have change change flag "+i);
     
 };
 var Timeout_keydown=function(i,e)
@@ -355,9 +355,9 @@ var TimeoutFocus=function (i) {
     console.log("now have lose "+i);
     i=parseInt(i);
     var val=document.getElementById("timeouttext_"+i).value;
-    console.log("now the value is "+val);
-    console.log("Change flag is "+change_flag);
-    console.log("input flag is "+input_flag);
+    //console.log("now the value is "+val);
+    //console.log("Change flag is "+change_flag);
+    //console.log("input flag is "+input_flag);
     if((i+1)==currentkey&&DefTimeOutValue[i]!=val&&!change_flag&&input_flag)
     {
         i=i+1;
@@ -371,8 +371,8 @@ var TimeoutFocus=function (i) {
             str="EXT-AV-SW-TIMEOUT 0,"+i+",0,"+val;
         }
         sendAndWaitCommand(str);
-        input_flag=true;
-        change_flag=true;
     }
+    input_flag=true;
+    change_flag=true;
     //currentkey=parseInt(i)+1;
 };
