@@ -77,7 +77,7 @@ var AbaAudioOutputs = function () {
     str += "<td style='width: 30px ' align='center'>ARC</td>";
     str += "<td style='width: 60px' align='center'>HDMI</td>";
     if (ligObject.Haveaudio) {
-        str += "<td style='width: 60px' align='center'>Analog</td>";
+        str += "<td style='width: 80px' align='center'>Analog</td>";
     }
     str += "</tr>";
     var i = 0, data = "";
@@ -88,10 +88,10 @@ var AbaAudioOutputs = function () {
         str += "<td style='min-width: 100px' id='ABA_Label" + i + "'>" + data + "</td>";
         str += "<td style='width: 30px;height: 32px'><input  type='checkbox' id='arc_checkbox_" + i + "' onclick='Aba_Arc_checkbox(\"" + i + "\")'></td>";
         //HDMI
-        str += "<td style='width: 30px;height: 32px'><input style='width: 50px ' type='button' id='Output_Digital" + i + "' onclick='Output_Digital_Button(\"" + i + "\")'/></td>";
+        str += "<td style='width: 60px;height: 32px'><input style='width: 50px ' type='button' id='Output_Digital" + i + "' onclick='Output_Digital_Button(\"" + i + "\")'/></td>";
         //Analog
         if (ligObject.Haveaudio) {
-            str += "<td style='width: 30px;height: 32px'><input style='width: 50px ' type='button' id='Output_Analog" + i + "' onclick='Output_Analog_Button(\"" + i + "\")'/></td>";
+            str += "<td style='width: 80px;height: 32px'><input style='width: 70px ' type='button' id='Output_Analog" + i + "' onclick='Output_Analog_Button(\"" + i + "\")'/></td>";
         }
         str += "</tr>";
     }
@@ -306,8 +306,6 @@ var Output_Volume_Range = function (id) {
     str = "VOLUME " + (parseInt(id) + 1) + "," + data;
     OpenSilder();
     sendAndWaitCommand(str);
-    console.log("suceess1")
-    
 };
 var vHoldBack = function (id, event) {
     var key = event.keyCode;
@@ -469,6 +467,7 @@ var Output_Balance_Range = function (id) {
     data = val1.value;
     document.getElementById(val2).value = data;
     str = "BALANCE " + (parseInt(id) + 1) + "," + data;
+    OpenSilder();
     sendAndWaitCommand(str);
 };
 //输入口的数字

@@ -762,6 +762,10 @@ var edid_uploadEdidFromFile = function(){
 			httpComm.changePollingInterval(INTERVAL_TIME_UPLOADING);
 			$('#HttpCommUploadIFrame').ajaxSubmit({
 				beforeSubmit: function(formData, jqForm, options) {
+                    $('#kDialogBtnCancel').hide();
+                    $('#kDialogBtnOk').hide();
+                    showDialogBox(true,true,"Message","EDID is copying ... ... ... ...","hideDialogBox");
+			        //setTimeout("SendCopyEdidCommand()",10);
 				},
 				uploadProgress: function(event, position, total, percentComplete) {
 				},

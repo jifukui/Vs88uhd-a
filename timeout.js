@@ -94,8 +94,10 @@ var TimeOut_Setting=function(i)
         var str;
         var val=document.getElementById(id).value;
         i=parseInt(i)+1;
+        DefTimeOutValue[i-1]=parseInt(val);
         if(i<=ligObject.OutputCounts)
         {
+            
             str="EXT-AV-SW-TIMEOUT 1,"+i+",4,"+val;
         }
         else if(i==(ligObject.OutputCounts+1))
@@ -362,6 +364,7 @@ var TimeoutFocus=function (i) {
     {
         i=i+1;
         console.log("onchange no set");
+        DefTimeOutValue[i-1]=parseInt(val);
         if(i<=ligObject.OutputCounts)
         {
             str="EXT-AV-SW-TIMEOUT 1,"+i+",4,"+val;
