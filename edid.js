@@ -157,7 +157,7 @@ var edidDisplayHandler = function(reply){
                     {
                         SelectedOutputEDIDChange=true;
                         $("#edidSumaryData").html("No Load");
-                        //$("#edidSumaryButton").hide();
+                        $("#selectAllCb").attr("checked",false);
                         routeButton.setSelectedAllGroup("cp_inputs", false);
                         edid_getEdidTo();
                     }
