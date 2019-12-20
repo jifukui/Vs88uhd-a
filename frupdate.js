@@ -140,39 +140,39 @@ var fr_update_submit_dialog_response = function (dialog_respose) {
                     UpgradeCloseDialog("OK");
                 },
             error:
-            function(xhr)
-            {
-                console.log("Have error "+JSON.stringify(xhr));
-            },
+                function(xhr)
+                {
+                    console.log("Have error "+JSON.stringify(xhr));
+                },
             timeout:
-            function(xhr)
-            {
-                console.log("Have timeout "+JSON.stringify(xhr));
-            },
+                function(xhr)
+                {
+                    console.log("Have timeout "+JSON.stringify(xhr));
+                },
             complete:
-            function(xhr)
-            {
-                if(xhr.statusText=="error"&&ISEnd&&IsAppleOS&&IsAppleWebkit)
+                function(xhr)
                 {
-                    console.log("yes this have error");
-                    //httpComm.changePollingInterval(INTERVAL_TIME);
-                    //UpgradeCloseDialog("OK");
-                }
-                else if(ISEnd)
-                {
-                    console.log("have over");
-                }
-                else
-                {
-                    //$("#HttpCommBtnUpload").addClass("DisSetButton");
-		            //$("#HttpCommBtnUpload").removeClass("SetButton");
-		            //$("#fr_file_selected").html("Choose a file");
-		            $('#kDialogBtnCancel').hide();
-                    $('#kDialogBtnOk').show();
-		            showDialogBox(true, true, "Error:", "File Upload failed,Please Again.", "hideDialogBox");
-                }
-                console.log("Have complete  "+JSON.stringify(xhr));
-            },
+                    if(xhr.statusText=="error"&&ISEnd&&IsAppleOS&&IsAppleWebkit)
+                    {
+                        console.log("yes this have error");
+                        //httpComm.changePollingInterval(INTERVAL_TIME);
+                        //UpgradeCloseDialog("OK");
+                    }
+                    else if(ISEnd)
+                    {
+                        console.log("have over");
+                    }
+                    else
+                    {
+                        //$("#HttpCommBtnUpload").addClass("DisSetButton");
+                        //$("#HttpCommBtnUpload").removeClass("SetButton");
+                        //$("#fr_file_selected").html("Choose a file");
+                        $('#kDialogBtnCancel').hide();
+                        $('#kDialogBtnOk').show();
+                        showDialogBox(true, true, "Error:", "File Upload failed,Please Again.", "hideDialogBox");
+                    }
+                    console.log("Have complete  "+JSON.stringify(xhr));
+                },
         });
     }
 

@@ -4,7 +4,8 @@ var connectflag=[1,1,1,1,1,1,1,1];//连接标志
 var inputselectedflag=[0,0,0,0,0,0,0,0];
 var stepINtype_module=[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]];//模式名对应的编号
 var stepINdevice_name=["","","","","","","",""];//级联设备的设备名数组
-var ActionInput=0;//当前选择的按钮
+var ActionInput=0;//当前选择的按钮
+
 var OutputValue=[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]];
 var stepIN=[0,0,0,0,0,0,0,0];
 var routingdevicebtnclicked=0;
@@ -131,6 +132,7 @@ var stepinspan=function()
     ctx.fillRect(12,0,20,420);
 };
 var StepInCreateSwitchDeviceButtons = function(inputId){
+    var length=8;
     var num;
     var id_stepin;
     var i;
@@ -138,7 +140,20 @@ var StepInCreateSwitchDeviceButtons = function(inputId){
     var content = "<table>";
     content +="<tr><td><div id='StepinName'>"+stepINdevice_name[inputId]+"</div></td></tr>";
     content +="<tr><td>Inputs</td></tr>";
-
+    var data=new Array(length);
+    var current=new Array(length);
+    for(i=0;i<length;i++)
+    {
+        current[i]=0;
+        data[i]=0;
+    }
+    for(i=0;i<stepINnum_module[inputId];i++)
+    {
+        if(parseInt(stepINtype_module[inputId][i])>=0&&parseInt(stepINtype_module[inputId][i])<length)
+        {
+            data[parseInt(stepINtype_module[inputId][i])]++;
+        }
+    }
     for(i=0;i<stepINnum_module[inputId];i++)
     {
         num=i+1;
@@ -179,6 +194,10 @@ var StepInCreateSwitchDeviceButtons = function(inputId){
         else
         {
             type="    ";
+        }
+        if(data[parseInt(stepINtype_module[inputId][i])%length]>1)
+        {
+            type+=(++current[parseInt(stepINtype_module[inputId][i])%length]);
         }
         content +="<tr><td id='"+id_stepin+"' class='routingDeviceSwitcTableIcon' onclick='routingDeviceSwitchClicked("+num+","+inputId+",1);'>"+type+"</td></tr>";
     }
@@ -265,7 +284,8 @@ var routingDeviceSwitchClicked = function(id, inputId,sw){
         sendAndWaitCommand("TUNNEL-CTRL 0,"+ output_id + ",\"VID "+id+">1\"");
     }
 };
-//输出口的状态
+//输出口的状态
+
 var routingDeviceDryContactClicked = function(index,id ,actionId)
 {
     var btn_name;
