@@ -362,9 +362,9 @@ var CloseSort=function()
         console.log("start close");
         myscroll.disable();
         var transform=["transform","-ms-transform","-moz-transform","-webkit-transform","-o-transform"];
-        for(let i=0;i<transform.length;i++)
+        for(var i=0;i<transform.length;i++)
         {
-            console.log("The i is "+i);
+            //console.log("The i is "+i);
             if($("#contentBox").css(transform[i])!="none")
             {
                 $("#contentBox").css(transform[i],"none");

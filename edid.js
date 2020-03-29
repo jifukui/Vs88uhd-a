@@ -85,7 +85,8 @@ var openEdidDiv = function(value){
 	$("#readFrom").append(fileStr);
 	$("#edidFileName").change(function(){
 	    console.log("have change");
-		edid_loadEdidFromFile();
+        edid_loadEdidFromFile();
+        firstflag=true;
 	});
 
 
@@ -284,6 +285,7 @@ var edid_loadEdidFromFile = function(){
         $('#kDialogBtnCancel').hide();
         $('#kDialogBtnOk').show();
         showDialogBox(true,true,"Warning","File type error.","hideDialogBox");
+        $("#edidFileName").val("");
         return false
     }
     if(re.test(file_name.name))
@@ -346,6 +348,7 @@ var edid_loadEdidFromFile = function(){
                 $('#kDialogBtnCancel').hide();
                 $('#kDialogBtnOk').show();
                 showDialogBox(true,true,"Warning","File type error.","hideDialogBox");
+                $("#edidFileName").val("");
                 firstflag=false;
             }
             else

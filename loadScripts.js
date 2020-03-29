@@ -47,7 +47,8 @@ function loadScriptAndWait(){
 	}).fail(function(){ 
 		scriptToLoadReties--;
 		if(scriptToLoadReties != 0)
-			loadScriptAndWait();
+			// loadScriptAndWait();
+			setTimeout("loadScriptAndWait",200);
 		else 
 			$("#loadingDivText").html("Error loading resources.");
 	});

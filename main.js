@@ -12,19 +12,28 @@ var httpComm = null;
 /**********
 * load
 ***********************/
-$(window).load(function(){
 
+$(window).load(function(){
 	$.ajaxSetup({  
-		// Enable caching of AJAX responses  
 		cache: false
-	}); 
-	
+	});
+	getloadscript(3);
+});
+function getloadscript(num){
 	$.getScript("/loadScripts.js", function(){
         loadScriptAndWait();
 		}).fail(function(){ 
-			$("#loadingDivText").html("Error loading resources.");
+			num--;
+			if(num>0)
+			{
+				// getloadscript(num);
+				setTimeout("getloadscript(num)",200);
+			}
+			else{
+				$("#loadingDivText").html("Error loading resources.");
+			}
+			
 		});
-});
-
+}
 
 //@ sourceURL=main.js
