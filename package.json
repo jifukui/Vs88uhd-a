@@ -1,0 +1,20 @@
+{
+  "name": "88h2probject",
+  "version": "1.0.0",
+  "description": "吉富逵使用",
+  "main": "build.js",
+  "scripts": {
+    "build": "node ./build/build.js"
+  },
+  "keywords": [
+    "build"
+  ],
+  "author": "jifukui",
+  "license": "ISC",
+  "devDependencies": {
+    "uglifyjs": "^2.4.11"
+  },
+  "dependencies": {
+    "uglify-js": "^3.9.3"
+  }
+}
